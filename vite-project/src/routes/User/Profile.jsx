@@ -71,7 +71,7 @@ function Profile() {
                   <Link to="/">
                     <h1>Change Email</h1>
                   </Link>
-                  <Link to="/">
+                  <Link to="/Home/change-password">
                     <h1>Change Password</h1>
                   </Link>
                 </div>

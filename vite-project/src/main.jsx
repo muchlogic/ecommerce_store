@@ -13,6 +13,7 @@ import Cart from "./routes/Checkout/Cart";
 import ProductPage from "./routes/HomeNav/ProductPage";
 import AllProducts from "./routes/HomeNav/AllProducts";
 import Profile from "./routes/User/Profile";
+import ChangePassword from "./routes/User/ChangePassword";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "/Home/Profile",
         element: <Profile />, // temp
+      },
+      {
+        path: "/Home/change-password",
+        element: <ChangePassword />,
       },
     ],
   },
