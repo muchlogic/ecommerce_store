@@ -12,7 +12,11 @@ router.get("/:email/:password", async (req, res) => {
       // confirm match with password and fufill request, else deny
       if (userInfo.password === req.params.password) {
         const accessToken = jwt.sign(
-          { email: userInfo.email, cart: userInfo.cart },
+          {
+            email: userInfo.email,
+            cart: userInfo.cart,
+            address: userInfo.address,
+          },
           process.env.TOKEN_SECRET,
           {
             expiresIn: "30m",

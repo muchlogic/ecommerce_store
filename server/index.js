@@ -15,7 +15,6 @@ app.use(express.json());
 // const bodyParser = require("body-parser");
 // app.use(bodyParser.json());
 const mongoDbUri = process.env.MONGO_URI;
-console.log(process.env.MONGO_URI);
 async function connect() {
   try {
     await mongoose.connect(mongoDbUri);
