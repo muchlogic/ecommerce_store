@@ -31,6 +31,20 @@ router.get("/get-cart", authenticateToken, async (req, res) => {
   }
 });
 
+router.post("/update-password", authenticateToken, async (req, res) => {
+  try {
+    // 1. update password with email
+    let result = await users.updateOne(
+      { email: req.user.email },
+      { $set: { password: req.body.password } }
+    );
+    res.status(200).json("updated password");
+    // 2. examine update object for result
+  } catch (err) {
+    res.status(500).json("server error");
+  }
+});
+
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
