@@ -8,26 +8,45 @@ import {
 import { jwtDecode } from "jwt-decode";
 
 function Profile() {
-  const [cart, setCart, user, setUser] = useOutletContext();
+  const [cart, setCart, user, setUser, refreshToken] = useOutletContext();
   const [orderHistory, setOrderHistory] = useState([]);
   const location = useLocation();
 
-  useEffect(() => {
-    if (location.state) {
-      // if user logged in then set user object and store user data in local storage
-      localStorage.setItem("user", JSON.stringify(location.state.user));
-      setUser(location.state.user);
-    } else if (localStorage.getItem("user") != null) {
-      // if user did not login but thier data remains in local storage then set user using that
-      setUser(JSON.parse(localStorage.getItem("user")));
-    }
-  }, [0]);
+  // useEffect(() => {
+  //   if (location.state) {
+  //     // if user logged in then set user object and store user data in local storage
+  //     localStorage.setItem("user", JSON.stringify(location.state.user));
+  //     setUser(location.state.user);
+  //   } else if (localStorage.getItem("user") != null) {
+  //     // if user did not login but thier data remains in local storage then set user using that
+  //     setUser(JSON.parse(localStorage.getItem("user")));
+  //   }
+  // }, [0]);
 
   const logOut = () => {
     // logout sequence removes all user data from browser and redirects them to login page
     localStorage.setItem("user", null);
+    localStorage.setItem("refresh", null);
     localStorage.setItem("cart", JSON.stringify([]));
-    console.log("logged out");
+    fetch(`https://localhost:3000/signin/logout`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: refreshToken,
+      }),
+    })
+      .then((response) => {
+        let status_code = response.status; // examine status codes
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -62,7 +81,7 @@ function Profile() {
               <Link to="/">
                 <div className="border-b-[0.5px] border-slate-500 w-fit">
                   <h1>Saved Address</h1>
-                  <h1>{jwtDecode(user).address}</h1>
+                  <h1>temp address</h1>
                 </div>
               </Link>
               <div>

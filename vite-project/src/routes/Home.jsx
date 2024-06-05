@@ -10,6 +10,7 @@ import { jwtDecode } from "jwt-decode";
 
 function Home() {
   const [user, setUser] = useState(null); // user is jwt token
+  const [refreshToken, setRefreshToken] = useState(null);
   const [showLinks, setShowLinks] = useState(false);
   const [cart, setCart] = useState([]);
   const showLinksString = showLinks ? "top-[9%]" : "top-[-100%]";
@@ -22,12 +23,15 @@ function Home() {
     if (location.state != null) {
       // if user logged in then set user object and store user data in local storage
       localStorage.setItem("user", JSON.stringify(location.state.user));
+      localStorage.setItem("refresh", JSON.stringify(location.state.refresh));
       setUser(location.state.user);
+      setRefreshToken(location.state.refresh);
       tempUser = location.state.user;
       console.log("using login info");
     } else if (localStorage.getItem("user") != "undefined") {
       // if user did not login but thier data remains in local storage then set user using that
       setUser(JSON.parse(localStorage.getItem("user")));
+      setRefreshToken(JSON.parse(localStorage.getItem("refresh")));
       tempUser = JSON.parse(localStorage.getItem("user"));
       console.log("using local info");
     }
@@ -157,7 +161,16 @@ function Home() {
       </header>
       <div className="relative flex flex-col min-h-[100vh] h-body">
         <main className="relative ">
-          <Outlet context={[cart, setCart, user, setUser]} />
+          <Outlet
+            context={[
+              cart,
+              setCart,
+              user,
+              setUser,
+              refreshToken,
+              setRefreshToken,
+            ]}
+          />
         </main>
         <footer className="bg-[#6e6b6b] text-black h-[400px] flex justify-center">
           <div className="links text-xl w-[88vw] flex justify-between">

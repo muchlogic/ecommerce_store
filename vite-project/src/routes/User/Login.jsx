@@ -41,7 +41,7 @@ function Login() {
               console.log("successfully logged in ");
               navigate("../home", {
                 relative: "path",
-                state: { user: data },
+                state: { user: data.accessToken, refresh: data.refreshToken },
               });
             }
           } else {
