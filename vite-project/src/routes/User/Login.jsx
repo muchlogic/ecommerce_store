@@ -45,7 +45,7 @@ function Login() {
               });
             }
           } else {
-            console.log("invalid login");
+            console.log("invalid login!");
           }
           // return data.json();
         })
