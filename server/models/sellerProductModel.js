@@ -23,6 +23,10 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
+  image_url: {
+    type: String,
+    required: true, // Only if you want to make the image URL optional
+  },
 });
 
 const product = model("product", productSchema);

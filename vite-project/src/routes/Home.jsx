@@ -28,7 +28,10 @@ function Home() {
       setRefreshToken(location.state.refresh);
       tempUser = location.state.user;
       console.log("using login info");
-    } else if (localStorage.getItem("user") != "undefined") {
+    } else if (
+      localStorage.getItem("user") != "undefined" &&
+      localStorage.getItem("refresh") != "undefined"
+    ) {
       // if user did not login but thier data remains in local storage then set user using that
       setUser(JSON.parse(localStorage.getItem("user")));
       setRefreshToken(JSON.parse(localStorage.getItem("refresh")));
@@ -63,6 +66,7 @@ function Home() {
     // do nothing
   }, [0]);
 
+  // overhead for cart when changed
   useEffect(() => {
     // if cart is non-empty update cart in local storage and db
     // console.log(cart);
@@ -133,7 +137,10 @@ function Home() {
             </ul>
           </div>
           <div className="flex z-20 justify-center w-[140px]">
-            <Link to={user ? "/Home/Profile" : "/Login"} state={{ user: user }}>
+            <Link
+              to={user ? "/Home/Profile" : "/Home/Login"}
+              state={{ user: user }}
+            >
               <IconButton>
                 <AccountBoxIcon fontSize="large" />
               </IconButton>

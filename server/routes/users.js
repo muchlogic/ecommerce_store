@@ -22,7 +22,7 @@ router.post("/update-cart", authenticateToken, async (req, res) => {
 router.get("/get-cart", authenticateToken, async (req, res) => {
   try {
     // 1. get cart with email
-    let result = await users.findOne({ email: req.user.email });
+    const result = await users.findOne({ email: req.user.email });
     // 2. examine update object for result
 
     res.status(200).json(result.cart);

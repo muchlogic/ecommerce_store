@@ -5,18 +5,43 @@ import { useOutletContext } from "react-router-dom";
 function Cart({}) {
   // const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
-  const [cart, setCart] = useOutletContext();
+  const [cart, setCart, user, setUser, refreshToken, setRefreshToken] =
+    useOutletContext();
 
+  useEffect(
+    () => {
+      // fetch users cart from db to display
+      if (user) {
+        fetch(`https://localhost:3000/users/get-cart`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user}`,
+          },
+        })
+          .then((response) => {
+            let status_code = response.status; // examine status code
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            setCart(data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    },
+    [user],
+    []
+  );
+  // get cart subtotal
   useEffect(() => {
-    // make fetch to using all ids to get names, imgs, etc to display
-    // setCart(JSON.parse(localStorage.getItem("cart")));
-
     let sum = 0;
     if (cart != null) {
       cart.forEach((item) => (sum += item.amount * item.price));
+      setTotal(sum);
     }
-
-    setTotal(sum);
   }, [cart]);
 
   const removeFromCart = (product) => {
@@ -40,9 +65,11 @@ function Cart({}) {
 
   return (
     <>
-      <div className="min-h-[400px] mx-[6vw] my-[2vh] w-[88vw]">
-        <h1 className="text-2xl">Shopping Cart</h1>
-        {cart != null ? (
+      <div className="min-h-[400px] mx-[4vw] my-[2vh]">
+        <h1 className="text-3xl border-b-[0.5px] border-slate-500 w-full">
+          Shopping Cart
+        </h1>
+        {cart.length > 0 ? (
           <>
             <ul className="relative text-xl">
               {cart.map((item) => {
@@ -78,7 +105,7 @@ function Cart({}) {
             </div>
           </>
         ) : (
-          <p>carts empty boi</p>
+          <h1 className="text-xl mt-5">Your cart is empty</h1>
         )}
       </div>
     </>

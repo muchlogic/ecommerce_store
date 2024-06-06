@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -47,7 +47,7 @@ function Signup() {
           // check status code, and make changes to client to inform (use modal?)
           if (status_code == 200) {
             // send user to login page after sigining up
-            navigate("../Login", { relative: "path" });
+            navigate("./Home/Login", { relative: "path" });
           } else if (status_code === 409) {
             // the email they used to sign up is already in use
             console.log("email in use");
@@ -67,21 +67,59 @@ function Signup() {
 
   return (
     <>
-      <div>
-        <h1>Sign Up</h1>
-        <form>
-          <label className="label">Email</label>
-          <input onChange={handleEmail} value={email} type="text" />
+      <div className="flex flex-col mx-[4vw] mt-[4vh] h-[50vh] items-center">
+        <h1 className="text-3xl border-b-[0.5px] border-slate-500 w-full">
+          Signup
+        </h1>
+        <form className="flex flex-col h-fit w-[30vw] min-w-[350px] mt-5">
+          <div>
+            <label className="label block mb-2">
+              <h1>Email</h1>
+            </label>
+            <input
+              className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={handleEmail}
+              value={email}
+              type="text"
+            />
+          </div>
 
-          <label className="label">Password</label>
-          <input onChange={handlePassword} value={password} type="password" />
+          <div>
+            <label className="label block mb-2">
+              <h1>Password</h1>
+            </label>
+            <input
+              className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={handlePassword}
+              value={password}
+              type="password"
+            />
+          </div>
 
-          <label className="label">Address</label>
-          <input onChange={handleAddress} value={address} type="text" />
+          <div>
+            <label className="label block mb-2">
+              <h1>Address</h1>
+            </label>
+            <input
+              className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={handleAddress}
+              value={address}
+              type="text"
+            />
+          </div>
 
-          <button onClick={handleSubmit} className="btn" type="submit">
-            Submit
-          </button>
+          <div className="flex w-full justify-between">
+            <button
+              className="btn bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              onClick={handleSubmit}
+              type="submit"
+            >
+              Signup
+            </button>
+            <Link to="/Home/Login">
+              <h1 className="my-2 mx-4 underline">Have an account?</h1>
+            </Link>
+          </div>
         </form>
       </div>
     </>
