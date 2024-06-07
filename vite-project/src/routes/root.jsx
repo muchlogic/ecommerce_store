@@ -8,10 +8,10 @@ function root() {
         <nav>
           <ul>
             <li>
-              <Link to={`Signup`}>sign up</Link>
+              <Link to={`Home/Signup`}>sign up</Link>
             </li>
             <li>
-              <Link to={`Login`}>login</Link>
+              <Link to={`Home/Login`}>login</Link>
             </li>
             <li>
               <Link to={`Home`}>home</Link>

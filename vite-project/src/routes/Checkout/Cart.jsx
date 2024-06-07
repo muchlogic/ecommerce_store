@@ -1,6 +1,8 @@
-import { light } from "@mui/material/styles/createPalette";
 import { useState, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
+import { IconButton } from "@mui/material";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 
 function Cart({}) {
   // const [cart, setCart] = useState([]);
@@ -40,16 +42,27 @@ function Cart({}) {
     let sum = 0;
     if (cart != null) {
       cart.forEach((item) => (sum += item.amount * item.price));
-      setTotal(sum);
+      setTotal(Math.round(sum, 2));
     }
   }, [cart]);
+
+  const addToCart = (product) => {
+    const newCart = cart.map((item) => {
+      if (item.productID === product.productID) {
+        return { ...item, amount: item.amount + 1 };
+      } else {
+        return item;
+      }
+    });
+    setCart(newCart);
+    localStorage.setItem("cart", JSON.stringify(newCart)); // update local storage cart
+  };
 
   const removeFromCart = (product) => {
     const newCart = cart
       .map((item) => {
         if (item.productID === product.productID) {
           if (item.amount == 1) {
-            console.log("marked");
             return null; // mark for removal from cart if count is 1
           } else {
             return { ...item, amount: item.amount - 1 };
@@ -76,23 +89,34 @@ function Cart({}) {
                 return (
                   <li
                     key={item.productID}
-                    className="w-[100%] flex flex-col sm:flex-row justify-between my-4 relative border-b-[0.5px] border-gray-600 pb-4"
+                    className="w-[100%] flex flex-col md:flex-row justify-between my-4 relative border-b-[0.5px] border-gray-600 pb-4"
                   >
                     <div className="flex min-w-[350px] ">
-                      <div className="min-w-[200px] w-[200px] min-h-[200px] bg-[green] md:bg-[blue]"></div>
-                      <h1 className="my-1 mx-4">{item.name}</h1>
+                      <Link to={`../ProductPage/${item.productID}`}>
+                        <div className="min-w-[200px] w-[200px] min-h-[200px] bg-[green] md:bg-[blue]"></div>
+                      </Link>
+                      <Link
+                        className="h-fit"
+                        to={`../ProductPage/${item.productID}`}
+                      >
+                        <h1 className="my-1 mx-4 h-fit">{item.name}</h1>
+                      </Link>
                     </div>
-                    <div className="flex justify-between sm:justify-around self-end sm:self-auto max-w-[46vw] w-[400px] sm:mr-[5vw] absolute bottom-4 sm:bottom-auto sm:relative">
+                    <div className="flex justify-between md:justify-around self-end md:self-auto max-w-[46vw] w-[400px] md:mr-[5vw] absolute bottom-4 md:bottom-auto md:relative">
                       <h1 className="my-1 mx-4">{item.amount}</h1>
                       <h1 className="my-1 mx-4">${item.price * item.amount}</h1>
                     </div>
-                    <div className="absolute right-0 top-1 mx-[1vw]">
-                      <button
-                        className="bg-[red]"
-                        onClick={() => removeFromCart(item)}
-                      >
-                        Rrem
-                      </button>
+                    <div className="flex absolute right-0 top-0 w-[80px]">
+                      <div className="">
+                        <IconButton onClick={() => removeFromCart(item)}>
+                          <RemoveRoundedIcon fontSize="md" />
+                        </IconButton>
+                      </div>
+                      <div className="">
+                        <IconButton onClick={() => addToCart(item)}>
+                          <AddRoundedIcon fontSize="md" />
+                        </IconButton>
+                      </div>
                     </div>
                   </li>
                 );

@@ -40,7 +40,7 @@ function Home() {
     }
 
     let tempCart = []; // decode jwt and retrieve cart from logged in user
-    if (location.state) {
+    if (location.state !== null) {
       let decoded = jwtDecode(location.state.user);
       tempCart = decoded.cart;
     }
@@ -64,7 +64,7 @@ function Home() {
     }
     // if user is not logged in and both carts are empty, use base ([])
     // do nothing
-  }, [0]);
+  }, [0, location]);
 
   // overhead for cart when changed
   useEffect(() => {
@@ -137,10 +137,7 @@ function Home() {
             </ul>
           </div>
           <div className="flex z-20 justify-center w-[140px]">
-            <Link
-              to={user ? "/Home/Profile" : "/Home/Login"}
-              state={{ user: user }}
-            >
+            <Link to={user ? "/Home/Profile" : "/Home/Login"}>
               <IconButton>
                 <AccountBoxIcon fontSize="large" />
               </IconButton>
