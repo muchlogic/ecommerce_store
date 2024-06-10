@@ -14,6 +14,7 @@ import ProductPage from "./routes/HomeNav/ProductPage";
 import AllProducts from "./routes/HomeNav/AllProducts";
 import Profile from "./routes/User/Profile";
 import ChangePassword from "./routes/User/ChangePassword";
+import Checkout from "./routes/Checkout/Checkout";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,7 @@ const router = createBrowserRouter([
         path: "/Home/Cart",
         element: <Cart />,
       },
+      { path: "/Home/Checkout", element: <Checkout /> },
       {
         path: "/Home/Profile",
         element: <Profile />, // temp

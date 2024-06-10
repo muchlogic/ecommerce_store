@@ -127,6 +127,15 @@ function Cart({}) {
                 Subtotal: ${total}
               </h1>
             </div>
+            <div className="relative text-2xl w-[100%] h-[6vh]">
+              <div className="w-fit absolute right-0 mx-4">
+                <Link to="/Home/Checkout">
+                  <h1 className="bg-slate-500 hover:bg-slate-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Checkout
+                  </h1>
+                </Link>
+              </div>
+            </div>
           </>
         ) : (
           <h1 className="text-xl mt-5">Your cart is empty</h1>
