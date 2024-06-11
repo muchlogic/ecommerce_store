@@ -45,6 +45,49 @@ router.post("/update-password", authenticateToken, async (req, res) => {
   }
 });
 
+router.get("/get-orders", authenticateToken, async (req, res) => {
+  try {
+    // 1. get orders with email
+    const result = await users.findOne({ email: req.user.email });
+    // 2. examine update object for result
+
+    // pass down the date once added to use model
+    res.status(200).json(result.orders);
+  } catch (err) {
+    res.status(500).json("server error");
+  }
+});
+
+router.post("/place-order", authenticateToken, async (req, res) => {
+  try {
+    // 1. update password with email
+    let result = await users.updateOne(
+      { email: req.user.email },
+      {
+        $push: {
+          orders: {
+            cart: req.body.cart,
+            countryOrRegion: req.body.countryOrRegion,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            address: req.body.address,
+            city: req.body.city,
+            province: req.body.province,
+            postalCode: req.body.postalCode,
+            cardNumber: req.body.cardNumber,
+            expirationDate: req.body.expirationDate,
+            securityCode: req.body.securityCode,
+            nameOnCard: req.body.nameOnCard,
+          },
+        },
+      }
+    );
+    res.status(200).json("serverside: order placed");
+  } catch (err) {
+    res.status(500).json("server error");
+  }
+});
+
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];

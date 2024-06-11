@@ -9,8 +9,73 @@ function Checkout({}) {
   const [subTotal, setSubTotal] = useState(0);
   const [tax, setTax] = useState(0);
   const [total, setTotal] = useState(0);
+
+  // user info
+  const [countryOrRegion, setCountryOrRegion] = useState("");
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [province, setProvince] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+
+  // payment details
+  const [cardNumber, setCardNumber] = useState("");
+  const [expirationDate, setExpirationDate] = useState("");
+  const [securityCode, setSecurityCode] = useState("");
+  const [nameOnCard, setNameOnCard] = useState("");
+
   const [cart, setCart, user, setUser, refreshToken, setRefreshToken] =
     useOutletContext();
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleCountryOrRegion = (e) => {
+    setCountryOrRegion(e.target.value);
+  };
+
+  const handleFirstName = (e) => {
+    setFirstName(e.target.value);
+  };
+
+  const handleLastName = (e) => {
+    setLastName(e.target.value);
+  };
+
+  const handleAddress = (e) => {
+    setAddress(e.target.value);
+  };
+
+  const handleCity = (e) => {
+    setCity(e.target.value);
+  };
+
+  const handleProvince = (e) => {
+    setProvince(e.target.value);
+  };
+
+  const handlePostalCode = (e) => {
+    setPostalCode(e.target.value);
+  };
+
+  const handleCardNumber = (e) => {
+    setCardNumber(e.target.value);
+  };
+
+  const handleExpirationDate = (e) => {
+    setExpirationDate(e.target.value);
+  };
+
+  const handleSecurityCode = (e) => {
+    setSecurityCode(e.target.value);
+  };
+
+  const handleNameOnCard = (e) => {
+    setNameOnCard(e.target.value);
+  };
 
   useEffect(
     () => {
@@ -50,6 +115,70 @@ function Checkout({}) {
     }
   }, [cart]);
 
+  // orders can be placed by users and guests, check for which and place order into user record or guests orders collection
+  const placeOrder = () => {
+    let valid = false;
+    if (user && refreshToken) {
+      console.log("trying to place order");
+      // if both exists then user is logged in
+      fetch(`https://localhost:3000/signin/refresh`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: refreshToken,
+        }),
+      })
+        .then((response) => {
+          let status_code = response.status; // examine status codes
+          if (status_code == 200) valid = true;
+          return response.json();
+        })
+        .then((data) => {
+          if (valid) {
+            setUser(data.accessToken);
+            fetch(`https://localhost:3000/users/place-order`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${data.accessToken}`,
+              },
+              body: JSON.stringify({
+                cart: cart,
+                countryOrRegion: countryOrRegion,
+                firstName: firstName,
+                lastName: lastName,
+                address: address,
+                city: city,
+                province: province,
+                postalCode: postalCode,
+                cardNumber: cardNumber,
+                expirationDate: expirationDate,
+                securityCode: securityCode,
+                nameOnCard: nameOnCard,
+              }),
+            })
+              .then((response) => {
+                let status_code = response.status; // examine status code
+                if (status_code == 200) {
+                  console.log("Order has been placed");
+                } else {
+                  console.log("Order has not been placed due to error");
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          }
+        });
+
+      if (valid) {
+        // if user is valid then do checks on input and add the order to their order list
+      }
+    }
+  };
+
   return (
     <>
       <div className="mx-[12vw] my-[2vh] mb-10">
@@ -62,8 +191,8 @@ function Checkout({}) {
                 </label>
                 <input
                   className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  //   onChange={handleConfirmPassword}
-                  //   value={confirmPassword}
+                  value={countryOrRegion}
+                  onChange={handleCountryOrRegion}
                   type="text"
                 />
               </div>
@@ -73,8 +202,8 @@ function Checkout({}) {
                 </label>
                 <input
                   className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  //   onChange={handleConfirmPassword}
-                  //   value={confirmPassword}
+                  value={firstName}
+                  onChange={handleFirstName}
                   type="text"
                 />
               </div>
@@ -84,8 +213,8 @@ function Checkout({}) {
                 </label>
                 <input
                   className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  //   onChange={handleConfirmPassword}
-                  //   value={confirmPassword}
+                  value={lastName}
+                  onChange={handleLastName}
                   type="text"
                 />
               </div>
@@ -95,8 +224,8 @@ function Checkout({}) {
                 </label>
                 <input
                   className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  //   onChange={handleConfirmPassword}
-                  //   value={confirmPassword}
+                  value={address}
+                  onChange={handleAddress}
                   type="text"
                 />
               </div>
@@ -106,8 +235,8 @@ function Checkout({}) {
                 </label>
                 <input
                   className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  //   onChange={handleConfirmPassword}
-                  //   value={confirmPassword}
+                  value={city}
+                  onChange={handleCity}
                   type="text"
                 />
               </div>
@@ -117,8 +246,8 @@ function Checkout({}) {
                 </label>
                 <input
                   className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  //   onChange={handleConfirmPassword}
-                  //   value={confirmPassword}
+                  value={province}
+                  onChange={handleProvince}
                   type="text"
                 />
               </div>
@@ -128,8 +257,8 @@ function Checkout({}) {
                 </label>
                 <input
                   className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  //   onChange={handleConfirmPassword}
-                  //   value={confirmPassword}
+                  value={postalCode}
+                  onChange={handlePostalCode}
                   type="text"
                 />
               </div>
@@ -142,8 +271,8 @@ function Checkout({}) {
                     </label>
                     <input
                       className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                      //   onChange={handleConfirmPassword}
-                      //   value={confirmPassword}
+                      value={cardNumber}
+                      onChange={handleCardNumber}
                       type="text"
                     />
                   </div>
@@ -153,8 +282,8 @@ function Checkout({}) {
                     </label>
                     <input
                       className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                      //   onChange={handleConfirmPassword}
-                      //   value={confirmPassword}
+                      value={expirationDate}
+                      onChange={handleExpirationDate}
                       type="text"
                     />
                   </div>
@@ -164,8 +293,8 @@ function Checkout({}) {
                     </label>
                     <input
                       className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                      //   onChange={handleConfirmPassword}
-                      //   value={confirmPassword}
+                      value={securityCode}
+                      onChange={handleSecurityCode}
                       type="text"
                     />
                   </div>
@@ -176,12 +305,19 @@ function Checkout({}) {
                     </label>
                     <input
                       className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                      //   onChange={handleConfirmPassword}
-                      //   value={confirmPassword}
+                      value={nameOnCard}
+                      onChange={handleNameOnCard}
                       type="text"
                     />
                   </div>
                 </div>
+              </div>
+              <div className="col-span-6 flex justify-center items-center mt-5">
+                <Link to="" onClick={placeOrder}>
+                  <h1 className="bg-slate-500 hover:bg-slate-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Place Order
+                  </h1>
+                </Link>
               </div>
             </div>
           </div>

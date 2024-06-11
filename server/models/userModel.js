@@ -19,6 +19,10 @@ const userSchema = new Schema({
     type: Array,
     require: true,
   },
+  orders: {
+    type: Array,
+    require: true,
+  },
 });
 
 const User = model("User", userSchema);

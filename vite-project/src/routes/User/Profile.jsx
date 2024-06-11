@@ -12,16 +12,26 @@ function Profile() {
   const [orderHistory, setOrderHistory] = useState([]);
   const location = useLocation();
 
-  // useEffect(() => {
-  //   if (location.state) {
-  //     // if user logged in then set user object and store user data in local storage
-  //     localStorage.setItem("user", JSON.stringify(location.state.user));
-  //     setUser(location.state.user);
-  //   } else if (localStorage.getItem("user") != null) {
-  //     // if user did not login but thier data remains in local storage then set user using that
-  //     setUser(JSON.parse(localStorage.getItem("user")));
-  //   }
-  // }, [0]);
+  // get orders
+  useEffect(() => {
+    fetch("https://localhost:3000/users/get-orders", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user}`,
+      },
+    })
+      .then((response) => {
+        let status_code = response.status; // examine status codes
+        return response.json();
+      })
+      .then((data) => {
+        setOrderHistory(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [0]);
 
   const logOut = () => {
     // logout sequence removes all user data from browser and redirects them to login page
