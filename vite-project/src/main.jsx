@@ -15,6 +15,7 @@ import AllProducts from "./routes/HomeNav/AllProducts";
 import Profile from "./routes/User/Profile";
 import ChangePassword from "./routes/User/ChangePassword";
 import Checkout from "./routes/Checkout/Checkout";
+import VeiwOrder from "./routes/User/VeiwOrder";
 
 const router = createBrowserRouter([
   {
@@ -28,14 +29,6 @@ const router = createBrowserRouter([
       {
         path: "/Home/",
         element: <Link2 />, // temp
-      },
-      {
-        path: "/Home/Signup",
-        element: <Signup />,
-      },
-      {
-        path: "/Home/Login",
-        element: <Login />,
       },
       {
         path: "/Home/About",
@@ -70,9 +63,20 @@ const router = createBrowserRouter([
         path: "/Home/change-password",
         element: <ChangePassword />,
       },
+      {
+        path: "/Home/veiw-order",
+        element: <VeiwOrder />,
+      },
     ],
   },
-
+  {
+    path: "/Signup",
+    element: <Signup />,
+  },
+  {
+    path: "/Login",
+    element: <Login />,
+  },
   {
     path: "/AddProduct",
     element: <CreateProduct />,

@@ -47,7 +47,7 @@ function Signup() {
           // check status code, and make changes to client to inform (use modal?)
           if (status_code == 200) {
             // send user to login page after sigining up
-            navigate("./Home/Login", { relative: "path" });
+            navigate("/Home/Login");
           } else if (status_code === 409) {
             // the email they used to sign up is already in use
             console.log("email in use");
@@ -116,7 +116,7 @@ function Signup() {
             >
               Signup
             </button>
-            <Link to="/Home/Login">
+            <Link to="/Login">
               <h1 className="my-2 mx-4 underline">Have an account?</h1>
             </Link>
           </div>

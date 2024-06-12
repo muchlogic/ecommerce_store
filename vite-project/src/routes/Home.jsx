@@ -64,7 +64,7 @@ function Home() {
     }
     // if user is not logged in and both carts are empty, use base ([])
     // do nothing
-  }, [0, location]);
+  }, [0]);
 
   // overhead for cart when changed
   useEffect(() => {
@@ -137,7 +137,7 @@ function Home() {
             </ul>
           </div>
           <div className="flex z-20 justify-center w-[140px]">
-            <Link to={user ? "/Home/Profile" : "/Home/Login"}>
+            <Link to={user ? "/Home/Profile" : "/Login"}>
               <IconButton>
                 <AccountBoxIcon fontSize="large" />
               </IconButton>

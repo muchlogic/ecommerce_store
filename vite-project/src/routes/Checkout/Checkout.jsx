@@ -93,7 +93,6 @@ function Checkout({}) {
             return response.json();
           })
           .then((data) => {
-            console.log(data);
             setCart(data);
           })
           .catch((error) => {
@@ -137,7 +136,6 @@ function Checkout({}) {
         })
         .then((data) => {
           if (valid) {
-            setUser(data.accessToken);
             fetch(`https://localhost:3000/users/place-order`, {
               method: "POST",
               headers: {
@@ -146,6 +144,7 @@ function Checkout({}) {
               },
               body: JSON.stringify({
                 cart: cart,
+                total: total,
                 countryOrRegion: countryOrRegion,
                 firstName: firstName,
                 lastName: lastName,
@@ -170,12 +169,13 @@ function Checkout({}) {
               .catch((error) => {
                 console.error(error);
               });
+            setUser(data.accessToken);
+            localStorage.setItem("cart", JSON.stringify([]));
+          } else {
+            // user is a guest, so place their order into the general pool
+            console.log("user is a guest");
           }
         });
-
-      if (valid) {
-        // if user is valid then do checks on input and add the order to their order list
-      }
     }
   };
 

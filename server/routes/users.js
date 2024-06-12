@@ -66,19 +66,23 @@ router.post("/place-order", authenticateToken, async (req, res) => {
       {
         $push: {
           orders: {
+            date: new Date(),
             cart: req.body.cart,
-            countryOrRegion: req.body.countryOrRegion,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            address: req.body.address,
-            city: req.body.city,
-            province: req.body.province,
-            postalCode: req.body.postalCode,
-            cardNumber: req.body.cardNumber,
-            expirationDate: req.body.expirationDate,
-            securityCode: req.body.securityCode,
-            nameOnCard: req.body.nameOnCard,
+            total: req.body.total,
           },
+        },
+        $set: {
+          countryOrRegion: req.body.countryOrRegion,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          address: req.body.address,
+          city: req.body.city,
+          province: req.body.province,
+          postalCode: req.body.postalCode,
+          "financial.cardNumber": req.body.cardNumber,
+          "financial.expirationDate": req.body.expirationDate,
+          "financial.securityCode": req.body.securityCode,
+          "financial.nameOnCard": req.body.nameOnCard,
         },
       }
     );

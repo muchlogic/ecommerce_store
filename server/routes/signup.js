@@ -14,6 +14,7 @@ router.post("/", async (req, res) => {
         email: req.body.email,
         password: req.body.password,
         address: req.body.address,
+        orders: [],
       });
       await user.save();
       res.status(200).json("User created successfully");

@@ -40,7 +40,6 @@ function Login() {
             if (data) {
               console.log("successfully logged in ");
               navigate("/Home", {
-                relative: "path",
                 state: { user: data.accessToken, refresh: data.refreshToken },
               });
             }
@@ -98,7 +97,7 @@ function Login() {
             >
               Login
             </button>
-            <Link to="/Home/Signup">
+            <Link to="/Signup">
               <h1 className="my-2 mx-4 underline">Don't have an account?</h1>
             </Link>
           </div>

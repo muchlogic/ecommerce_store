@@ -73,17 +73,32 @@ function Profile() {
             </h1>
             <div className="mt-5">
               {orderHistory.length > 0 ? (
-                <ul>
-                  {orderHistory.map((order) => {
-                    return <li>order details link</li>;
+                <div className="grid grid-cols-4">
+                  <h1>Order date</h1>
+                  <h1>Status</h1>
+                  <h1>Total</h1>
+                  <h1></h1>
+                  {orderHistory.map((order, index) => {
+                    return (
+                      <>
+                        <h1 className="">{order.date.substr(0, 10)}</h1>
+                        <h1>Order received</h1>
+                        <h1>${order.total}</h1>
+                        <Link to="/Home/veiw-order" state={{ order: order }}>
+                          <h1 className="text-[blue] hover:text-[#685d5d]">
+                            Veiw details
+                          </h1>
+                        </Link>
+                      </>
+                    );
                   })}
-                </ul>
+                </div>
               ) : (
                 <h1>No history</h1>
               )}
             </div>
           </div>
-          <div className="flex flex-col justify-between text-xl w-[46vw]">
+          <div className="flex flex-col justify-between text-xl w-[46vw] border-l-[1px] border-slate-500 pl-5">
             <h1 className="w-fit border-b-[0.5px] border-slate-500">
               Account Details
             </h1>
