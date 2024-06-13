@@ -16,6 +16,7 @@ import Profile from "./routes/User/Profile";
 import ChangePassword from "./routes/User/ChangePassword";
 import Checkout from "./routes/Checkout/Checkout";
 import VeiwOrder from "./routes/User/VeiwOrder";
+import ThankYou from "./routes/Checkout/ThankYou";
 
 const router = createBrowserRouter([
   {
@@ -23,49 +24,53 @@ const router = createBrowserRouter([
     element: <Root />,
   },
   {
-    path: "/Home",
+    path: "/home",
     element: <Home />,
     children: [
       {
-        path: "/Home/",
+        path: "/home/",
         element: <Link2 />, // temp
       },
       {
-        path: "/Home/About",
+        path: "/home/about",
         element: <About />, // temp
       },
       {
-        path: "/Home/Products",
+        path: "/home/shop",
         element: <Products />, // temp
       },
       {
-        path: "/Home/Products/:category",
+        path: "/home/shop/:category",
         element: <AllProducts />,
       },
       {
-        path: "/Home/Link3",
+        path: "/home/Link3",
         element: <About />, // temp
       },
       {
-        path: "/Home/ProductPage/:id",
+        path: "/home/product-page/:id",
         element: <ProductPage />,
       },
       {
-        path: "/Home/Cart",
+        path: "/home/cart",
         element: <Cart />,
       },
-      { path: "/Home/Checkout", element: <Checkout /> },
+      { path: "/home/checkout", element: <Checkout /> },
       {
-        path: "/Home/Profile",
+        path: "/home/profile",
         element: <Profile />, // temp
       },
       {
-        path: "/Home/change-password",
+        path: "/home/change-password",
         element: <ChangePassword />,
       },
       {
-        path: "/Home/veiw-order",
+        path: "/home/veiw-order",
         element: <VeiwOrder />,
+      },
+      {
+        path: "/home/thank-you",
+        element: <ThankYou />,
       },
     ],
   },

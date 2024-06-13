@@ -13,7 +13,7 @@ function Home() {
   const [refreshToken, setRefreshToken] = useState(null);
   const [showLinks, setShowLinks] = useState(false);
   const [cart, setCart] = useState([]);
-  const showLinksString = showLinks ? "top-[9%]" : "top-[-100%]";
+  const showLinksString = showLinks ? "top-[11%]" : "top-[-100%]";
   const location = useLocation();
   // localStorage.setItem("user", null);
   // localStorage.setItem("cart", JSON.stringify([]));
@@ -99,7 +99,9 @@ function Home() {
   }, [cart]);
 
   const show_nav_links = (e) => {
-    setShowLinks(!showLinks);
+    if (window.visualViewport.width <= 768) {
+      setShowLinks(!showLinks);
+    }
   };
 
   return (
@@ -110,7 +112,7 @@ function Home() {
             LOGO
           </h1>
           <div
-            className={`transition-all ease-in-out delay-[1] nav-links ${showLinksString} absolute md:relative bg-white md:top-auto left-0 w-full md:w-auto z-10 border-y-[0.5px] border-slate-500 md:border-none`}
+            className={`transition-all ease-in-out delay-[1] nav-links ${showLinksString} absolute md:relative bg-white md:top-auto left-0 w-full md:w-auto z-10 border-b-[0.5px] border-slate-500 md:border-none`}
           >
             <ul className="relative flex flex-col md:flex-row items-center md:gap-[4vw] px-5">
               <li className="py-2">
@@ -121,14 +123,14 @@ function Home() {
                 </Link>
               </li>
               <li className="py-2">
-                <Link onClick={show_nav_links} to={`/Home/About`}>
+                <Link onClick={show_nav_links} to={`/home/about`}>
                   <h1 className="text-black text-2xl hover:text-[#aca4a4] ">
                     About
                   </h1>
                 </Link>
               </li>
               <li className="py-2">
-                <Link onClick={show_nav_links} to={`/Home/Products`}>
+                <Link onClick={show_nav_links} to={`/home/shop`}>
                   <h1 className="text-black text-2xl hover:text-[#aca4a4]">
                     Shop
                   </h1>
@@ -164,7 +166,7 @@ function Home() {
         </nav>
       </header>
       <div className="relative flex flex-col min-h-[100vh] h-body">
-        <main className="relative ">
+        <main className="relative">
           <Outlet
             context={[
               cart,

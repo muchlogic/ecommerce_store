@@ -80,7 +80,7 @@ function CategoryWheel({ category, n }) {
           </div>
 
           <div className="absolute right-0 -top-10">
-            <Link to={`/Home/Products/${category}`}>
+            <Link to={`/home/shop/${category}`}>
               <h1 className="text-black text-xl hover:text-[#aca4a4] ">
                 View All
               </h1>

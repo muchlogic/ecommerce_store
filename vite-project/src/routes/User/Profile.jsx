@@ -66,8 +66,8 @@ function Profile() {
           My Account
         </h1>
         <h1 className="mt-5 text-2xl">Hello User</h1>
-        <div className="flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 w-[92vw] mt-5">
-          <div className="text-xl w-[46vw] ">
+        <div className="flex flex-col md:flex-row justify-center items-center md:items-start space-y-10 md:space-y-0 w-[92vw] mt-5">
+          <div className="text-xl w-[92vw] md:w-[46vw]">
             <h1 className="w-fit border-b-[0.5px] border-slate-500">
               Order History
             </h1>
@@ -98,7 +98,7 @@ function Profile() {
               )}
             </div>
           </div>
-          <div className="flex flex-col justify-between text-xl w-[46vw] border-l-[1px] border-slate-500 pl-5">
+          <div className="flex flex-col justify-between text-xl w-[92vw] md:w-[46vw] md:border-l-[1px] md:border-slate-500 md:pl-5">
             <h1 className="w-fit border-b-[0.5px] border-slate-500">
               Account Details
             </h1>
@@ -106,7 +106,9 @@ function Profile() {
               <Link to="/">
                 <div className="border-b-[0.5px] border-slate-500 w-fit">
                   <h1>Saved Address</h1>
-                  <h1>temp address</h1>
+                  <h1 className="text-[blue] hover:text-[#685d5d]">
+                    temp address
+                  </h1>
                 </div>
               </Link>
               <div>
@@ -116,7 +118,9 @@ function Profile() {
                     <h1>Change Email</h1>
                   </Link>
                   <Link to="/Home/change-password">
-                    <h1>Change Password</h1>
+                    <h1 className="text-[blue] hover:text-[#685d5d]">
+                      Change Password
+                    </h1>
                   </Link>
                 </div>
               </div>{" "}

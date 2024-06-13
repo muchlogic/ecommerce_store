@@ -42,8 +42,7 @@ function BestSellingWheel({}) {
   const slider = document.getElementsByClassName("best-selling-wheel")[0];
   const items = document.getElementsByClassName("best-selling-item");
   const startDragging = (e) => {
-    let delayInMilliseconds = 250; //1 second
-
+    let delayInMilliseconds = 200; //1 second
     slider.classList.remove("scroll-smooth");
     slider.classList.remove("snap-x");
     slider.classList.add("scroll-auto");
@@ -94,8 +93,8 @@ function BestSellingWheel({}) {
         className="relative bg-white mt-10"
         onMouseUp={(e) => stopDragging(e)}
         onMouseMove={(e) => move(e)}
-        onMouseDown={(e) => startDragging(e)}
         onMouseLeave={(e) => stopDragging(e)}
+        onMouseDown={(e) => startDragging(e)}
       >
         <div className="h-[420px] w-[96vw] text-black relative left-[50%] translate-x-[-50%]">
           <ul className="best-selling-wheel flex overflow-scroll overflow-y-hidden overflow-x-hidden scroll-smooth snap-x">

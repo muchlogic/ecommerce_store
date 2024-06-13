@@ -26,8 +26,10 @@ function Products() {
 
   return (
     <>
-      <div className="px-[6vw] relative flex flex-row flex-wrap">
-        <h1 className="text-2xl w-[100%]">Products By Catagory</h1>
+      <div className="px-[6vw] mt-[4vh] relative flex flex-row flex-wrap">
+        <h1 className="text-3xl border-b-[0.5px] border-slate-500 w-full mb-5">
+          Products By Catagory
+        </h1>
         {categories ? (
           categories.map((category, index) => {
             return (

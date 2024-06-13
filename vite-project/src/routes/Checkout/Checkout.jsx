@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 
 function Checkout({}) {
-  // const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
+
   const [subTotal, setSubTotal] = useState(0);
   const [tax, setTax] = useState(0);
   const [total, setTotal] = useState(0);
@@ -162,6 +163,7 @@ function Checkout({}) {
                 let status_code = response.status; // examine status code
                 if (status_code == 200) {
                   console.log("Order has been placed");
+                  navigate("/home/thank-you");
                 } else {
                   console.log("Order has not been placed due to error");
                 }
