@@ -178,6 +178,8 @@ function Checkout({}) {
             console.log("user is a guest");
           }
         });
+    } else {
+      console.log("broken");
     }
   };
 

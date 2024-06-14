@@ -12,6 +12,7 @@ function Home() {
   const [user, setUser] = useState(null); // user is jwt token
   const [refreshToken, setRefreshToken] = useState(null);
   const [showLinks, setShowLinks] = useState(false);
+  const [valid, setValid] = useState(false);
   const [cart, setCart] = useState([]);
   const showLinksString = showLinks ? "top-[11%]" : "top-[-100%]";
   const location = useLocation();
@@ -20,22 +21,51 @@ function Home() {
 
   useEffect(() => {
     let tempUser = null;
+    let tempRefresh = null;
     if (location.state != null) {
       // if user logged in then set user object and store user data in local storage
       localStorage.setItem("user", JSON.stringify(location.state.user));
       localStorage.setItem("refresh", JSON.stringify(location.state.refresh));
       setUser(location.state.user);
       setRefreshToken(location.state.refresh);
+      setValid(true);
       tempUser = location.state.user;
       console.log("using login info");
     } else if (
       localStorage.getItem("user") != "undefined" &&
       localStorage.getItem("refresh") != "undefined"
     ) {
-      // if user did not login but thier data remains in local storage then set user using that
-      setUser(JSON.parse(localStorage.getItem("user")));
-      setRefreshToken(JSON.parse(localStorage.getItem("refresh")));
+      // if user did not login but thier data remains in local storage then set user using that,
+      // and attempt to refresh the user using the refresh token, if fails then restrict
+      // sensitive info until they login again
+
       tempUser = JSON.parse(localStorage.getItem("user"));
+      tempRefresh = JSON.parse(localStorage.getItem("refresh"));
+      let result = true;
+      fetch(`https://localhost:3000/signin/refresh`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: tempRefresh,
+        }),
+      })
+        .then((response) => {
+          let status_code = response.status; // examine status codes
+          if (status_code == 403 || status_code == 401) result = false; // if refresh failed the session is not valid
+          return response.json();
+        })
+        .then((data) => {
+          if (result) {
+            setUser(data.accessToken);
+            setValid(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
       console.log("using local info");
     }
 
@@ -74,7 +104,6 @@ function Home() {
 
     if (user) {
       // if the user is logged in update the db cart, or has previously logged in
-      console.log("updated db cart");
       fetch(`https://localhost:3000/users/update-cart`, {
         method: "POST",
         headers: {
@@ -139,7 +168,7 @@ function Home() {
             </ul>
           </div>
           <div className="flex z-20 justify-center w-[140px]">
-            <Link to={user ? "/Home/Profile" : "/Login"}>
+            <Link to={user && valid ? "/Home/Profile" : "/Login"}>
               <IconButton>
                 <AccountBoxIcon fontSize="large" />
               </IconButton>

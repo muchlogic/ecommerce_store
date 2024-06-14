@@ -3,12 +3,15 @@ import { Link, useOutletContext } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
+import Modal from "../Modal";
 
 function Cart({}) {
   // const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [cart, setCart, user, setUser, refreshToken, setRefreshToken] =
     useOutletContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [message, setMessage] = useState(null);
 
   useEffect(
     () => {
@@ -26,7 +29,6 @@ function Cart({}) {
             return response.json();
           })
           .then((data) => {
-            console.log(data);
             setCart(data);
           })
           .catch((error) => {
@@ -56,6 +58,15 @@ function Cart({}) {
     });
     setCart(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart)); // update local storage cart
+    setMessage("Item added to cart");
+    const modal = document.getElementsByClassName("Modal")[0];
+    modal.classList.replace("invisible", "visible");
+    modal.classList.replace("opacity-0", "opacity-100");
+    // Automatically close the modal after 3 seconds
+    setTimeout(() => {
+      modal.classList.replace("opacity-100", "opacity-0");
+      modal.classList.replace("visible", "invisible");
+    }, 3000);
   };
 
   const removeFromCart = (product) => {
@@ -74,6 +85,15 @@ function Cart({}) {
       .filter((item) => item !== null); // filter null
     setCart(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart)); // update local storage cart
+    setMessage("Item removed from cart");
+    const modal = document.getElementsByClassName("Modal")[0];
+    modal.classList.replace("invisible", "visible");
+    modal.classList.replace("opacity-0", "opacity-100");
+    // Automatically close the modal after 3 seconds
+    setTimeout(() => {
+      modal.classList.replace("opacity-100", "opacity-0");
+      modal.classList.replace("visible", "invisible");
+    }, 3000);
   };
 
   return (
@@ -141,6 +161,7 @@ function Cart({}) {
           <h1 className="text-xl mt-5">Your cart is empty</h1>
         )}
       </div>
+      <Modal message={message} />
     </>
   );
 }

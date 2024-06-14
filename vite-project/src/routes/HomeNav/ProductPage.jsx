@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
+import Modal from "../Modal";
 
 function ProductPage() {
   const [product, setProduct] = useState(null);
   const [currSlide, setCurrSlide] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [cart, setCart] = useOutletContext();
   const params = useParams();
   const images = ["img1", "img2", "img3", "img4"]; // temp imgs until backend ones
-
   useEffect(() => {
     window.scrollBy(0, -window.innerHeight);
     fetch(`https://localhost:3000/products/product/${params.id}`, {
@@ -41,6 +42,15 @@ function ProductPage() {
     } else {
       setCart([...cart, { ...product, amount: 1 }]);
     }
+
+    const modal = document.getElementsByClassName("Modal")[0];
+    modal.classList.replace("invisible", "visible");
+    modal.classList.replace("opacity-0", "opacity-100");
+    // Automatically close the modal after 3 seconds
+    setTimeout(() => {
+      modal.classList.replace("opacity-100", "opacity-0");
+      modal.classList.replace("visible", "invisible");
+    }, 3000);
   };
 
   const changeImg = (image) => {
@@ -154,6 +164,7 @@ function ProductPage() {
           <p>Replace with screen loader, ie. faded boxes</p>
         )}
       </div>
+      <Modal message="Item added to cart" />
     </>
   );
 }
