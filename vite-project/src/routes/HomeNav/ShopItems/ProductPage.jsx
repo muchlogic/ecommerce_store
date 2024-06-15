@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
-import Modal from "../Modal";
+import Modal from "../../Modal";
 
 function ProductPage() {
   const [product, setProduct] = useState(null);

@@ -43,7 +43,9 @@ function Cart({}) {
   useEffect(() => {
     let sum = 0;
     if (cart != null) {
-      cart.forEach((item) => (sum += item.amount * item.price));
+      cart.forEach((item) => {
+        sum += item.amount * item.price;
+      });
       setTotal(Math.round(sum, 2));
     }
   }, [cart]);

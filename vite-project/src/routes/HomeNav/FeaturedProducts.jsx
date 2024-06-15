@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
-import BestSellingItem from "./BestSellingItem";
 import { Button, IconButton } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import FeaturedItem from "./FeaturedItem";
 
-function BestSellingWheel({}) {
+function FeaturedProducts({}) {
   const [bestSelling, setBestSelling] = useState([]);
-
   useEffect(() => {
     // get all products in db
     fetch(`https://localhost:3000/products/filter/tool`, {
@@ -101,7 +100,7 @@ function BestSellingWheel({}) {
             {bestSelling ? (
               bestSelling.map((item, index) => {
                 return (
-                  <BestSellingItem
+                  <FeaturedItem
                     key={item.productID}
                     item={item}
                     first={index === 0}
@@ -117,13 +116,11 @@ function BestSellingWheel({}) {
         </div>
         <div className="w-[94vw] absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] flex justify-between">
           <div className="mx-2">
-            {" "}
             <IconButton onClick={() => moveWheelLeft()}>
               <ArrowBackIcon fontSize="large" />
             </IconButton>
           </div>
           <div className="mx-2">
-            {" "}
             <IconButton onClick={() => moveWheelRight()}>
               <ArrowForwardIcon fontSize="large" />
             </IconButton>
@@ -134,4 +131,4 @@ function BestSellingWheel({}) {
   );
 }
 
-export default BestSellingWheel;
+export default FeaturedProducts;

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 
-function BestSellingItem({ item, first, last, startDragging }) {
+function FeaturedItem({ item, first, last, startDragging }) {
   return (
     <>
       <li className="">
@@ -29,4 +29,4 @@ function BestSellingItem({ item, first, last, startDragging }) {
   );
 }
 
-export default BestSellingItem;
+export default FeaturedItem;

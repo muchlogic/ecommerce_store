@@ -110,14 +110,15 @@ function Checkout({}) {
     if (cart != null) {
       cart.forEach((item) => (sum += item.amount * item.price));
       setSubTotal(Math.round(sum, 2));
-      setTax(Math.round(sum * 1.13, 2));
-      setTotal(Math.round(sum, 2) + Math.round(sum * 1.13, 2));
+      setTax(Math.round(sum * 0.13, 2));
+      setTotal(Math.round(sum, 2) + Math.round(sum * 0.13, 2));
     }
-  }, [cart]);
+  }, [0]);
 
   // orders can be placed by users and guests, check for which and place order into user record or guests orders collection
   const placeOrder = () => {
     let valid = false;
+    console.log(user, refreshToken);
     if (user && refreshToken) {
       console.log("trying to place order");
       // if both exists then user is logged in

@@ -59,6 +59,7 @@ function Home() {
         .then((data) => {
           if (result) {
             setUser(data.accessToken);
+            setRefreshToken(tempRefresh);
             setValid(true);
           }
         })

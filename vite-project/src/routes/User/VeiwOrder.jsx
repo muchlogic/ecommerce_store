@@ -11,7 +11,6 @@ function VeiwOrder() {
 
   useEffect(() => {
     setOrder(location.state.order);
-    console.log(location.state.order);
   }, []);
 
   return (
