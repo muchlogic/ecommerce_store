@@ -42,17 +42,16 @@ function FeaturedProducts({}) {
   const items = document.getElementsByClassName("best-selling-item");
   const startDragging = (e) => {
     let delayInMilliseconds = 200; //1 second
-    slider.classList.remove("scroll-smooth");
+    slider.classList.replace("scroll-smooth", "scroll-auto");
     slider.classList.remove("snap-x");
-    slider.classList.add("scroll-auto");
 
     setTimeout(function () {
       // add delay before disabling links to distinguish clicks and holds
       for (let i = 0; i < items.length; i++) {
-        items[i].classList.remove("pointer-events-auto");
-        // items[i].classList.remove("snap-center");
-        // items[i].classList.remove("md:snap-start");
-        items[i].classList.add("pointer-events-none");
+        items[i].classList.replace(
+          "pointer-events-auto",
+          "pointer-events-none"
+        );
       }
     }, delayInMilliseconds);
 
@@ -63,15 +62,11 @@ function FeaturedProducts({}) {
 
   const stopDragging = (e) => {
     e.preventDefault();
-    slider.classList.add("scroll-smooth");
+    slider.classList.replace("scroll-auto", "scroll-smooth");
     slider.classList.add("snap-x");
-    slider.classList.remove("scroll-auto");
 
     for (let i = 0; i < items.length; i++) {
-      items[i].classList.remove("pointer-events-none");
-      items[i].classList.add("pointer-events-auto");
-      // items[i].classList.add("snap-center");
-      // items[i].classList.add("md:snap-start");
+      items[i].classList.replace("pointer-events-none", "pointer-events-auto");
     }
     mouseDown = false;
   };
@@ -95,6 +90,9 @@ function FeaturedProducts({}) {
         onMouseLeave={(e) => stopDragging(e)}
         onMouseDown={(e) => startDragging(e)}
       >
+        <h1 className="text-2xl relative left-[50%] translate-x-[-50%] w-fit h-fit p-4 select-none">
+          Featured
+        </h1>
         <div className="h-[420px] w-[96vw] text-black relative left-[50%] translate-x-[-50%]">
           <ul className="best-selling-wheel flex overflow-scroll overflow-y-hidden overflow-x-hidden scroll-smooth snap-x">
             {bestSelling ? (

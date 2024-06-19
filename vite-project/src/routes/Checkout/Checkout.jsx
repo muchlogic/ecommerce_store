@@ -173,7 +173,7 @@ function Checkout({}) {
                 console.error(error);
               });
             setUser(data.accessToken);
-            localStorage.setItem("cart", JSON.stringify([]));
+            sessionStorage.setItem("cart", JSON.stringify([]));
           } else {
             // user is a guest, so place their order into the general pool
             console.log("user is a guest");

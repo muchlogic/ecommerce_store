@@ -56,7 +56,7 @@ function CategoryWheel({ category, n }) {
   return (
     <>
       <div className="border-b-[0.5px] border-slate-500 mb-10">
-        <h1 className="text-xl">
+        <h1 className={(products ? "visible" : "invisible") + " text-xl"}>
           {category.charAt(0).toUpperCase() + category.slice(1) + "'s"}
         </h1>
         <div className="text-xl relative my-2">
@@ -74,12 +74,17 @@ function CategoryWheel({ category, n }) {
                   );
                 })
               ) : (
-                <p>Replace with screen loader, ie. faded boxes</p>
+                <div className="w-[88vw] h-[40vw] lg:h-[400px] animate-pulse bg-slate-500"></div>
               )}
             </ul>
           </div>
 
-          <div className="absolute right-0 -top-10">
+          <div
+            className={
+              (products ? "visible" : "invisible") +
+              " text-xl absolute right-0 -top-10"
+            }
+          >
             <Link to={`/home/shop/${category}`}>
               <h1 className="text-black text-xl hover:text-[#aca4a4] ">
                 View All
@@ -87,7 +92,12 @@ function CategoryWheel({ category, n }) {
             </Link>
           </div>
 
-          <div className="w-[88vw] absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] hidden lg:flex justify-between">
+          <div
+            className={
+              (products ? "visible" : "invisible") +
+              " w-[88vw] absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] hidden lg:flex justify-between"
+            }
+          >
             <div className="mx-2">
               {" "}
               <IconButton onClick={() => moveCarouselLeft()}>

@@ -4,6 +4,7 @@ import FeaturedProducts from "./FeaturedProducts";
 
 function Link2() {
   const [currSlide, setCurrSlide] = useState(0);
+  const [currWord, setCurrWord] = useState(0);
 
   useEffect(() => {
     //Implementing the setInterval method
@@ -14,6 +15,16 @@ function Link2() {
     //Clearing the interval
     return () => clearInterval(interval);
   }, [currSlide]);
+
+  useEffect(() => {
+    //Implementing the setInterval method
+    const interval = setInterval(() => {
+      changeWord(currWord);
+    }, 4000);
+
+    //Clearing the interval
+    return () => clearInterval(interval);
+  }, [currWord]);
 
   const changeSlide = (n, currSlide) => {
     let slides = document.querySelectorAll(".slider div");
@@ -31,6 +42,14 @@ function Link2() {
     slides[n].style.opacity = 1;
     dots[n].className = "dot active";
     setCurrSlide(n);
+  };
+
+  const changeWord = (currWord) => {
+    let words = document.getElementsByClassName("word");
+    words[currWord].classList.replace("block", "hidden");
+    let next = (currWord + 1) % words.length;
+    words[next].classList.replace("hidden", "block");
+    setCurrWord(next);
   };
 
   return (
@@ -63,7 +82,22 @@ function Link2() {
             </div>
           </div>
         </div>
-        <div className="h-[100vh]">20</div>
+        <div className="relative h-[100vh] flex items-center bg-[black] ">
+          <div className="relative overflow-hidden w-fit h-[140px]">
+            <h1 className="word text-9xl font-bold text-white block w-0 animate-revealer">
+              dog
+            </h1>
+            <h1 className="word text-9xl font-bold text-white hidden w-0 animate-revealer">
+              cat
+            </h1>
+            <h1 className="word text-9xl font-bold text-white hidden w-0 animate-revealer">
+              ogre
+            </h1>
+            <h1 className="word text-9xl font-bold text-white hidden w-0 animate-revealer">
+              horse
+            </h1>
+          </div>
+        </div>
       </div>
     </>
   );

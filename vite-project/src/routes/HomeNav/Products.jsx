@@ -26,7 +26,7 @@ function Products() {
 
   return (
     <>
-      <div className="px-[6vw] mt-[4vh] relative flex flex-row flex-wrap">
+      <div className="px-[6vw] mt-[2vh] relative flex flex-row flex-wrap">
         <h1 className="text-3xl border-b-[0.5px] border-slate-500 w-full mb-5">
           Products By Catagory
         </h1>
@@ -41,7 +41,7 @@ function Products() {
             );
           })
         ) : (
-          <p>Replace with screen loader, ie. faded boxes</p>
+          <div className="w-[1000px] h-[1000px] animate-pulse">dog</div>
         )}
       </div>
     </>

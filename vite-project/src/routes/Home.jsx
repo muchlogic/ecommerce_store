@@ -16,31 +16,29 @@ function Home() {
   const [cart, setCart] = useState([]);
   const showLinksString = showLinks ? "top-[11%]" : "top-[-100%]";
   const location = useLocation();
-  // localStorage.setItem("user", null);
-  // localStorage.setItem("cart", JSON.stringify([]));
 
   useEffect(() => {
     let tempUser = null;
     let tempRefresh = null;
     if (location.state != null) {
       // if user logged in then set user object and store user data in local storage
-      localStorage.setItem("user", JSON.stringify(location.state.user));
-      localStorage.setItem("refresh", JSON.stringify(location.state.refresh));
+      sessionStorage.setItem("user", JSON.stringify(location.state.user));
+      sessionStorage.setItem("refresh", JSON.stringify(location.state.refresh));
       setUser(location.state.user);
       setRefreshToken(location.state.refresh);
       setValid(true);
       tempUser = location.state.user;
       console.log("using login info");
     } else if (
-      localStorage.getItem("user") != "undefined" &&
-      localStorage.getItem("refresh") != "undefined"
+      sessionStorage.getItem("user") != "undefined" &&
+      sessionStorage.getItem("refresh") != "undefined"
     ) {
       // if user did not login but thier data remains in local storage then set user using that,
       // and attempt to refresh the user using the refresh token, if fails then restrict
       // sensitive info until they login again
 
-      tempUser = JSON.parse(localStorage.getItem("user"));
-      tempRefresh = JSON.parse(localStorage.getItem("refresh"));
+      tempUser = JSON.parse(sessionStorage.getItem("user"));
+      tempRefresh = JSON.parse(sessionStorage.getItem("refresh"));
       let result = true;
       fetch(`https://localhost:3000/signin/refresh`, {
         method: "POST",
@@ -88,7 +86,7 @@ function Home() {
       // if user is logged in and cart is empty, use local storage cart if exists
       // (for if the user decides to create an account after adding to cart)
       console.log("using local cart");
-      let temp = JSON.parse(localStorage.getItem("cart"));
+      let temp = JSON.parse(sessionStorage.getItem("cart"));
       if (temp) {
         setCart(temp);
       }
@@ -101,7 +99,7 @@ function Home() {
   useEffect(() => {
     // if cart is non-empty update cart in local storage and db
     // console.log(cart);
-    if (cart.length > 0) localStorage.setItem("cart", JSON.stringify(cart));
+    if (cart.length > 0) sessionStorage.setItem("cart", JSON.stringify(cart));
 
     if (user) {
       // if the user is logged in update the db cart, or has previously logged in

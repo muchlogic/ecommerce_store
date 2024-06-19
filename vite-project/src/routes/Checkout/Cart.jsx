@@ -59,7 +59,7 @@ function Cart({}) {
       }
     });
     setCart(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart)); // update local storage cart
+    sessionStorage.setItem("cart", JSON.stringify(newCart)); // update local storage cart
     setMessage("Item added to cart");
     const modal = document.getElementsByClassName("Modal")[0];
     modal.classList.replace("invisible", "visible");
@@ -86,7 +86,7 @@ function Cart({}) {
       })
       .filter((item) => item !== null); // filter null
     setCart(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart)); // update local storage cart
+    sessionStorage.setItem("cart", JSON.stringify(newCart)); // update local storage cart
     setMessage("Item removed from cart");
     const modal = document.getElementsByClassName("Modal")[0];
     modal.classList.replace("invisible", "visible");
