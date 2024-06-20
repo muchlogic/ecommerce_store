@@ -3,12 +3,21 @@ import { Outlet, Link } from "react-router-dom";
 import { Button, IconButton } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import FeaturedItem from "./FeaturedItem";
+import FeaturedItem from "./FeaturedItem2";
 
 function FeaturedProducts({}) {
   const [bestSelling, setBestSelling] = useState([]);
+  const [currentTranslateX, setCurrentTranslateX] = useState(0);
+
+  let mouseDown = false;
+  let startX;
+
+  // let currentTranslateX;
+  const slider = document.getElementsByClassName("best-selling-wheel")[0];
+  const items = document.getElementsByClassName("best-selling-item");
   useEffect(() => {
     // get all products in db
+    if (slider) slider.style.transform = `translateX(0px)`;
     fetch(`https://localhost:3000/products/filter/tool`, {
       method: "GET",
       headers: {
@@ -25,24 +34,25 @@ function FeaturedProducts({}) {
         console.error(error);
       });
   }, []);
-  let mouseDown = false;
-  let startX, scrollLeft;
-  const slider = document.getElementsByClassName("best-selling-wheel")[0];
-  const items = document.getElementsByClassName("best-selling-item");
 
   const moveWheelRight = () => {
-    slider.scrollLeft += 300; // 300 is width of each snap item
+    slider.style.transform = `translateX(${currentTranslateX - 310}px)`;
+    setCurrentTranslateX(currentTranslateX - 310);
   };
 
   const moveWheelLeft = () => {
-    // slider.scrollLeft -= 300;
-    slider.translateX("100px");
+    slider.style.transform = `translateX(${currentTranslateX + 310}px)`;
+    setCurrentTranslateX(currentTranslateX + 310);
   };
 
   const startDragging = (e) => {
-    let delayInMilliseconds = 200; //1 second
-    slider.classList.replace("scroll-smooth", "scroll-auto");
-    slider.classList.remove("snap-x");
+    mouseDown = true;
+    slider.classList.remove("transition-transform", "ease-linear");
+
+    startX = e.pageX - slider.offsetLeft;
+    let matrix = new WebKitCSSMatrix(slider.style.transform);
+    setCurrentTranslateX(matrix.m41);
+    // currentTranslateX = matrix.m41;
 
     setTimeout(function () {
       // add delay before disabling links to distinguish clicks and holds
@@ -52,22 +62,30 @@ function FeaturedProducts({}) {
           "pointer-events-none"
         );
       }
-    }, delayInMilliseconds);
-
-    mouseDown = true;
-    startX = e.pageX - slider.offsetLeft;
-    scrollLeft = slider.scrollLeft;
+    }, 200);
   };
 
   const stopDragging = (e) => {
     e.preventDefault();
-    slider.classList.replace("scroll-auto", "scroll-smooth");
-    slider.classList.add("snap-x");
+    mouseDown = false;
 
+    slider.classList.add("transition-transform", "ease-linear");
     for (let i = 0; i < items.length; i++) {
       items[i].classList.replace("pointer-events-none", "pointer-events-auto");
     }
-    mouseDown = false;
+
+    let matrix = new WebKitCSSMatrix(slider.style.transform);
+
+    slider.style.transform = `translateX(${
+      currentTranslateX -
+      (currentTranslateX +
+        items[Math.abs(Math.ceil(matrix.m41 / 310))].offsetLeft)
+    }px)`;
+    setCurrentTranslateX(
+      currentTranslateX -
+        (currentTranslateX +
+          items[Math.abs(Math.ceil(matrix.m41 / 310))].offsetLeft)
+    );
   };
 
   const move = (e) => {
@@ -77,7 +95,7 @@ function FeaturedProducts({}) {
     }
     const x = e.pageX - slider.offsetLeft;
     const scroll = x - startX;
-    slider.scrollLeft = scrollLeft - scroll;
+    slider.style.transform = `translateX(${currentTranslateX + scroll}px)`;
   };
 
   return (
@@ -87,14 +105,14 @@ function FeaturedProducts({}) {
           className="bg-white mt-10"
           onMouseUp={(e) => stopDragging(e)}
           onMouseMove={(e) => move(e)}
-          onMouseLeave={(e) => stopDragging(e)}
+          // onMouseLeave={(e) => stopDragging(e)}
           onMouseDown={(e) => startDragging(e)}
         >
           <h1 className="text-2xl relative left-[50%] translate-x-[-50%] w-fit h-fit p-4 select-none">
             Featured
           </h1>
-          <div className="h-[420px] w-[96vw] text-black relative left-[50%] translate-x-[-50%]">
-            <ul className="best-selling-wheel flex overflow-scroll overflow-y-hidden overflow-x-hidden scroll-smooth snap-x">
+          <div className="h-[800px] w-[96vw] text-black overflow-hidden ">
+            <div className="best-selling-wheel flex transition-transform ease-linear delay-0">
               {bestSelling ? (
                 bestSelling.map((item, index) => {
                   return (
@@ -104,13 +122,14 @@ function FeaturedProducts({}) {
                       first={index === 0}
                       last={index === bestSelling.length - 1}
                       startDragging={startDragging}
+                      index={index}
                     />
                   );
                 })
               ) : (
                 <p>loading</p>
               )}
-            </ul>
+            </div>
           </div>
           {/* <div className="w-[94vw] absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] flex justify-between">
           <div className="mx-2">

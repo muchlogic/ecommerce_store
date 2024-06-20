@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
-import FeaturedProducts from "./FeaturedProducts";
+import FeaturedProducts from "./FeaturedProducts2";
+// import FeaturedProducts from "./FeaturedProducts";
 
 function Link2() {
   const [currSlide, setCurrSlide] = useState(0);

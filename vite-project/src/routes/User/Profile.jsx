@@ -35,9 +35,9 @@ function Profile() {
 
   const logOut = () => {
     // logout sequence removes all user data from browser and redirects them to login page
-    localStorage.setItem("user", null);
-    localStorage.setItem("refresh", null);
-    localStorage.setItem("cart", JSON.stringify([]));
+    sessionStorage.setItem("user", null);
+    sessionStorage.setItem("refresh", null);
+    sessionStorage.setItem("cart", JSON.stringify([]));
     fetch(`https://localhost:3000/signin/logout`, {
       method: "DELETE",
       headers: {

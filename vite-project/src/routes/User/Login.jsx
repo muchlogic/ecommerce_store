@@ -58,6 +58,13 @@ function Login() {
 
   return (
     <>
+      <header className="bg-white border-b-[0.5px] border-slate-500">
+        <nav className="flex justify-between items-center w-[92%] h-20 mx-auto">
+          <h1 className="text-3xl font-bold underline text-[black] z-20 w-[140px] flex items-center justify-center">
+            LOGO
+          </h1>
+        </nav>
+      </header>
       <div className="flex flex-col mx-[4vw] mt-[4vh] h-[50vh] items-center">
         <h1 className="text-3xl border-b-[0.5px] border-slate-500 w-full">
           Login
