@@ -8,9 +8,9 @@ function FeaturedItem({ item, first, last, startDragging, index }) {
       <div className="">
         <div
           className={
-            "best-selling-item pointer-events-auto w-[300px] h-[380px] flex flex-col justify-around items-center my-5 border-b-[0.5px] border-gray-500 select-none" +
-            (first ? " ml-[310px] md:ml-0" : " ") +
-            (last ? " mr-[310px] md:mr-0 " : " mr-10")
+            "best-selling-item pointer-events-auto w-[300px] h-[380px] flex flex-col justify-around items-center border-b-[0.5px] border-gray-500 select-none m-5" +
+            (first ? " md:ml-0" : " ") +
+            (last ? " md:mr-0" : " ")
           }
         >
           <Link to={`/Home/product-page/${item.productID}`} draggable="false">

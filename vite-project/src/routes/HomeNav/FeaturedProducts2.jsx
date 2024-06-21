@@ -5,9 +5,13 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FeaturedItem from "./FeaturedItem2";
 
+// Featued Product Slider for Home page
 function FeaturedProducts({}) {
   const [bestSelling, setBestSelling] = useState([]);
-  const [currentTranslateX, setCurrentTranslateX] = useState(0);
+  const [currentTranslateX, setCurrentTranslateX] = useState(0); // track mouse starting pos for sliding
+  const [currentItem, setCurrentItem] = useState(0); // track item currently snapped to by transforms
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // track window width to change transforms when resizing window
 
   let mouseDown = false;
   let startX;
@@ -35,25 +39,102 @@ function FeaturedProducts({}) {
       });
   }, []);
 
+  // helper function for adjusting positioning of slider to clip to the left of inner content
+  const adjust = () => {
+    let matrix = new WebKitCSSMatrix(slider.style.transform);
+
+    if (matrix.m41 / 310 < 0) {
+      // check if new pos is valid ie. moves in the direction of new content
+      if (
+        // checks whether the slider is exceeding the last piece of content (last item)
+        Math.abs(matrix.m41 - slider.clientWidth) <
+          items[items.length - 1].offsetLeft + 200 &&
+        currentItem < items.length
+      ) {
+        // calculate delta between snap point and curr point and adjust the transform of slider
+        // 1. find adjustment which is translateX(curr) - translateX(item to clip to)
+        // 2. subtract the delta from translateX(curr) to move the slider on a clip point (ie. start of item 4)
+        let adjustment =
+          currentTranslateX +
+          items[Math.abs(Math.ceil(matrix.m41 / 310))].offsetLeft;
+        slider.style.transform = `translateX(${
+          currentTranslateX - adjustment
+        }px)`;
+        setCurrentTranslateX(currentTranslateX - adjustment);
+        setCurrentItem(Math.abs(Math.ceil(matrix.m41 / 310)));
+      } else {
+        // case: clip to end of last item
+        slider.style.transform = `translateX(${
+          -1 * (items[items.length - 1].offsetLeft + 310 - slider.clientWidth)
+        }px)`;
+        setCurrentTranslateX(
+          -1 * (items[items.length - 1].offsetLeft + 310 - slider.clientWidth)
+        );
+        setCurrentItem(items.length - 1);
+      }
+    } else {
+      // case: clip to first item
+      slider.style.transform = `translateX(0px)`;
+      setCurrentTranslateX(0);
+      setCurrentItem(0);
+    }
+  };
+
   const moveWheelRight = () => {
-    slider.style.transform = `translateX(${currentTranslateX - 310}px)`;
-    setCurrentTranslateX(currentTranslateX - 310);
+    let matrix = new WebKitCSSMatrix(slider.style.transform);
+    if (
+      // case: item is not the last one
+      Math.abs(matrix.m41 - slider.clientWidth) + 310 <
+        items[items.length - 1].offsetLeft + 200 &&
+      currentItem < items.length
+    ) {
+      slider.style.transform = `translateX(${-items[currentItem + 1]
+        .offsetLeft}px)`;
+
+      setCurrentTranslateX(-items[currentItem + 1].offsetLeft);
+      setCurrentItem(currentItem + 1);
+    } else {
+      // case: clip to last item
+      slider.style.transform = `translateX(${
+        -1 * (items[items.length - 1].offsetLeft + 310 - slider.clientWidth)
+      }px)`;
+      setCurrentTranslateX(
+        -1 * (items[items.length - 1].offsetLeft + 310 - slider.clientWidth)
+      );
+      setCurrentItem(items.length - 1);
+    }
   };
 
   const moveWheelLeft = () => {
-    slider.style.transform = `translateX(${currentTranslateX + 310}px)`;
-    setCurrentTranslateX(currentTranslateX + 310);
+    if (currentItem > 0) {
+      if (currentItem < items.length - 1) {
+        // case: item isn't the last one
+        slider.style.transform = `translateX(${-items[currentItem - 1]
+          .offsetLeft}px)`;
+
+        setCurrentTranslateX(-items[currentItem - 1].offsetLeft);
+        setCurrentItem(currentItem - 1);
+      } else {
+        // case: item is the last one, so calculate snap point by (dividing the TranslateX(last item) by the width - 1)
+        let newItem = Math.floor(
+          (items[items.length - 1].offsetLeft - slider.clientWidth) / 310
+        );
+        console.log(newItem);
+        slider.style.transform = `translateX(${
+          -1 * items[newItem].offsetLeft
+        }px)`;
+        setCurrentTranslateX(-1 * items[newItem].offsetLeft);
+        setCurrentItem(newItem);
+      }
+    }
   };
 
   const startDragging = (e) => {
-    mouseDown = true;
     slider.classList.remove("transition-transform", "ease-linear");
-
     startX = e.pageX - slider.offsetLeft;
     let matrix = new WebKitCSSMatrix(slider.style.transform);
     setCurrentTranslateX(matrix.m41);
-    // currentTranslateX = matrix.m41;
-
+    mouseDown = true;
     setTimeout(function () {
       // add delay before disabling links to distinguish clicks and holds
       for (let i = 0; i < items.length; i++) {
@@ -62,30 +143,17 @@ function FeaturedProducts({}) {
           "pointer-events-none"
         );
       }
-    }, 200);
+    }, 80);
   };
 
   const stopDragging = (e) => {
     e.preventDefault();
     mouseDown = false;
-
     slider.classList.add("transition-transform", "ease-linear");
     for (let i = 0; i < items.length; i++) {
       items[i].classList.replace("pointer-events-none", "pointer-events-auto");
     }
-
-    let matrix = new WebKitCSSMatrix(slider.style.transform);
-
-    slider.style.transform = `translateX(${
-      currentTranslateX -
-      (currentTranslateX +
-        items[Math.abs(Math.ceil(matrix.m41 / 310))].offsetLeft)
-    }px)`;
-    setCurrentTranslateX(
-      currentTranslateX -
-        (currentTranslateX +
-          items[Math.abs(Math.ceil(matrix.m41 / 310))].offsetLeft)
-    );
+    adjust();
   };
 
   const move = (e) => {
@@ -94,9 +162,29 @@ function FeaturedProducts({}) {
       return;
     }
     const x = e.pageX - slider.offsetLeft;
-    const scroll = x - startX;
+    let scroll = x - startX;
+
+    scroll = Math.ceil(scroll * 0.7);
     slider.style.transform = `translateX(${currentTranslateX + scroll}px)`;
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    // adjust slider pos when window wisth changes
+    if (slider) adjust();
+  }, [windowWidth]);
 
   return (
     <>
@@ -105,13 +193,12 @@ function FeaturedProducts({}) {
           className="bg-white mt-10"
           onMouseUp={(e) => stopDragging(e)}
           onMouseMove={(e) => move(e)}
-          // onMouseLeave={(e) => stopDragging(e)}
           onMouseDown={(e) => startDragging(e)}
         >
           <h1 className="text-2xl relative left-[50%] translate-x-[-50%] w-fit h-fit p-4 select-none">
             Featured
           </h1>
-          <div className="h-[800px] w-[96vw] text-black overflow-hidden ">
+          <div className="h-[400px] w-[96vw] text-black overflow-hidden relative left-[50%] translate-x-[-50%]">
             <div className="best-selling-wheel flex transition-transform ease-linear delay-0">
               {bestSelling ? (
                 bestSelling.map((item, index) => {
@@ -131,7 +218,20 @@ function FeaturedProducts({}) {
               )}
             </div>
           </div>
-          {/* <div className="w-[94vw] absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] flex justify-between">
+          <div className="w-[94vw] absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] flex justify-between">
+            <div className="mx-2">
+              <IconButton onClick={() => moveWheelLeft()}>
+                <ArrowBackIcon fontSize="large" />
+              </IconButton>
+            </div>
+            <div className="mx-2">
+              <IconButton onClick={() => moveWheelRight()}>
+                <ArrowForwardIcon fontSize="large" />
+              </IconButton>
+            </div>
+          </div>
+        </div>
+        {/* <div className="w-[94vw] flex justify-between absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
           <div className="mx-2">
             <IconButton onClick={() => moveWheelLeft()}>
               <ArrowBackIcon fontSize="large" />
@@ -143,19 +243,6 @@ function FeaturedProducts({}) {
             </IconButton>
           </div>
         </div> */}
-        </div>
-        <div className="w-[94vw] flex justify-between absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
-          <div className="mx-2">
-            <IconButton onClick={() => moveWheelLeft()}>
-              <ArrowBackIcon fontSize="large" />
-            </IconButton>
-          </div>
-          <div className="mx-2">
-            <IconButton onClick={() => moveWheelRight()}>
-              <ArrowForwardIcon fontSize="large" />
-            </IconButton>
-          </div>
-        </div>
       </div>
     </>
   );
