@@ -21,7 +21,7 @@ function Link2() {
     //Implementing the setInterval method
     const interval = setInterval(() => {
       changeWord(currWord);
-    }, 4000);
+    }, 5000);
 
     //Clearing the interval
     return () => clearInterval(interval);
@@ -83,20 +83,25 @@ function Link2() {
             </div>
           </div>
         </div>
-        <div className="relative h-[100vh] flex items-center bg-[black] ">
-          <div className="relative overflow-hidden w-fit h-[140px]">
-            <h1 className="word text-9xl font-bold text-white block w-0 animate-revealer">
-              dog
-            </h1>
-            <h1 className="word text-9xl font-bold text-white hidden w-0 animate-revealer">
-              cat
-            </h1>
-            <h1 className="word text-9xl font-bold text-white hidden w-0 animate-revealer">
-              ogre
-            </h1>
-            <h1 className="word text-9xl font-bold text-white hidden w-0 animate-revealer">
-              horse
-            </h1>
+        <div className="relative bg-[black] font-bold text-white ">
+          <div className="h-[100vh] relative flex flex-col gap-4 justify-center items-end md:items-start m-[4vw] text-3xl md:text-6xl ">
+            <div className="">
+              <h1>Listen to the song</h1>
+            </div>
+            <div className="relative overflow-hidden flex flex-col items-end h-[70px] md:h-[140px] text-6xl md:text-9xl">
+              <h1 className="word block w-fit animate-slide_in_out">dog</h1>
+              <h1 className="word hidden w-fit animate-slide_in_out">cat</h1>
+              <h1 className="word hidden w-fit animate-slide_in_out">ogre</h1>
+              <h1 className="word hidden w-fit animate-slide_in_out">horse</h1>
+            </div>
+            <div className="">
+              <h1>of balls</h1>
+            </div>
+            <div className=" bg-white text-black w-fit h-fit transition-colors delay-50 ease-in-out hover:bg-slate-700 focus:outline-none focus:shadow-outline">
+              <Link to="/home/shop">
+                <h1 className="py-2 px-4">Shop</h1>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -231,18 +231,6 @@ function FeaturedProducts({}) {
             </div>
           </div>
         </div>
-        {/* <div className="w-[94vw] flex justify-between absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
-          <div className="mx-2">
-            <IconButton onClick={() => moveWheelLeft()}>
-              <ArrowBackIcon fontSize="large" />
-            </IconButton>
-          </div>
-          <div className="mx-2">
-            <IconButton onClick={() => moveWheelRight()}>
-              <ArrowForwardIcon fontSize="large" />
-            </IconButton>
-          </div>
-        </div> */}
       </div>
     </>
   );
