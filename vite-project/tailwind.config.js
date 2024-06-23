@@ -18,7 +18,7 @@ export default {
           "0%, 100%": {
             transform: "translateX(-500px)",
           },
-          "80%": { transform: "translateX(0px)" },
+          "40%, 80%": { transform: "translateX(0px)" },
         },
       },
     },
