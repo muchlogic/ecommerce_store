@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import {
   useNavigate,
   useLocation,
@@ -11,6 +11,18 @@ function Profile() {
   const [cart, setCart, user, setUser, refreshToken] = useOutletContext();
   const [orderHistory, setOrderHistory] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (
+      user === null &&
+      (JSON.parse(sessionStorage.getItem("refresh")) === "undefined" ||
+        JSON.parse(sessionStorage.getItem("refresh")) === null)
+    ) {
+      console.log(!user, JSON.parse(sessionStorage.getItem(user)));
+      navigate("/login");
+    }
+  }, [user]);
 
   // get orders
   useEffect(() => {
@@ -31,7 +43,7 @@ function Profile() {
       .catch((error) => {
         console.error(error);
       });
-  }, [0]);
+  }, [user]);
 
   const logOut = () => {
     // logout sequence removes all user data from browser and redirects them to login page
@@ -65,7 +77,9 @@ function Profile() {
         <h1 className="text-3xl border-b-[0.5px] border-slate-500">
           My Account
         </h1>
-        <h1 className="mt-5 text-2xl">Hello User</h1>
+        <h1 className="mt-5 text-2xl">
+          Hello {user ? (user.firstName ? user.firstName : "User") : "user"}
+        </h1>
         <div className="flex flex-col md:flex-row justify-center items-center md:items-start space-y-10 md:space-y-0 w-[92vw] mt-5">
           <div className="text-xl w-[92vw] md:w-[46vw]">
             <h1 className="w-fit border-b-[0.5px] border-slate-500">

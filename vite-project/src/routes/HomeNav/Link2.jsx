@@ -72,8 +72,8 @@ function Link2() {
 
       <div className="About-container mt-10">
         <div className="bg-[grey] h-[70vh] relative">
-          <div className=" h-[200px] w-[800px] sticky top-0 pt-[40px] mb-[40px] left-[200px]">
-            <div className="text-[blue] bg-white h-[160px] w-[800px]">
+          <div className="w-[80vw] md:w-[40vw] sticky top-0 pt-[40px] mb-[40px] mx-auto md:ml-[6vw]">
+            <div className="text-[blue] bg-white p-10 w-[80vw] md:w-[40vw]">
               <h1>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                 Maxime, exercitationem quia consequuntur eveniet saepe expedita,

@@ -17,6 +17,8 @@ function Home() {
   const showLinksString = showLinks ? "top-[11%]" : "top-[-100%]";
   const location = useLocation();
 
+  const [email, setEmail] = useState("");
+
   useEffect(() => {
     let tempUser = null;
     let tempRefresh = null;
@@ -132,6 +134,10 @@ function Home() {
     }
   };
 
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
   return (
     <>
       <header className="bg-white border-b-[0.5px] border-slate-500">
@@ -208,25 +214,25 @@ function Home() {
             ]}
           />
         </main>
-        <footer className="bg-[#6e6b6b] text-black h-[400px] flex justify-center">
-          <div className="links text-xl w-[88vw] flex justify-between">
-            <div>
-              <h1>Store Links</h1>
-              <ul className="mt-2">
-                <li className="mt-1">
+        <footer className="bg-[#6e6b6b] text-black py-6 h-[300px] flex justify-center">
+          <div className="links text-xl w-[88vw] flex justify-around flex-wrap">
+            <div className="">
+              <h1 className="text-2xl">Store Links</h1>
+              <ul className="flex flex-col gap-2">
+                <li className="">
                   <a href="">Shop</a>
                 </li>
-                <li className="mt-1">
+                <li className="">
                   <a href="">About</a>
                 </li>
-                <li className="mt-1">
+                <li className="">
                   <a href="">Refund Policy</a>
                 </li>
               </ul>
             </div>
-            <div>
-              <h1>Socials</h1>
-              <ul className="flex">
+            <div className="">
+              <h1 className="text-2xl">Socials</h1>
+              <ul className="flex flex-col lg:flex-row gap-2">
                 <li className="mr-2">
                   <a href="">Twitter</a>
                 </li>
@@ -238,8 +244,29 @@ function Home() {
                 </li>
               </ul>
             </div>
-
-            <h1>News Letter</h1>
+            <div>
+              <form className="flex flex-col h-fit w-[30vw] min-w-[350px]">
+                <label htmlFor="news_input">
+                  <h1 className="text-2xl">Newsletter</h1>
+                </label>
+                <div>
+                  <input
+                    id="news_input"
+                    className="shadow appearance-none border border-slate-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    onChange={handleEmail}
+                    value={email}
+                    type="text"
+                  />
+                  <button
+                    className="btn bg-white hover:bg-slate-400 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    // onClick={handleSubmit}
+                    type="submit"
+                  >
+                    Subscribe
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </footer>
       </div>

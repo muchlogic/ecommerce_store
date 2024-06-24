@@ -163,8 +163,17 @@ function FeaturedProducts({}) {
     }
     const x = e.pageX - slider.offsetLeft;
     let scroll = x - startX;
+    let matrix = new WebKitCSSMatrix(slider.style.transform);
 
-    scroll = Math.ceil(scroll * 0.7);
+    if (
+      // decrease scroll speed if scroll is out of range of content
+      matrix.m41 > 0 ||
+      Math.abs(matrix.m41) + slider.clientWidth >=
+        Math.abs(items[items.length - 1].offsetLeft + 305)
+    ) {
+      scroll = Math.ceil(scroll * 0.5);
+    }
+
     slider.style.transform = `translateX(${currentTranslateX + scroll}px)`;
   };
 
