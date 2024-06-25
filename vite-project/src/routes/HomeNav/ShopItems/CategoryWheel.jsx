@@ -31,6 +31,7 @@ function CategoryWheel({ category, n }) {
           randomNumber = Math.floor(Math.random() * 10000000) + 1;
         }
         setProducts(data);
+        console.log(data);
       })
       .catch((error) => {
         console.error(error);

@@ -84,7 +84,7 @@ function Link2() {
           </div>
         </div>
         <div className="relative bg-[black] font-bold text-white ">
-          <div className="h-[100vh] relative flex flex-col gap-4 justify-center items-end md:items-start m-[4vw] text-3xl md:text-6xl ">
+          <div className="h-[100vh] relative flex flex-col gap-4 justify-center items-end md:items-start mx-[4vw] text-3xl md:text-6xl ">
             <div className="">
               <h1>Listen to the song</h1>
             </div>

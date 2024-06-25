@@ -208,35 +208,37 @@ function FeaturedProducts({}) {
             Featured
           </h1>
           <div className="h-[400px] w-[96vw] text-black overflow-hidden relative left-[50%] translate-x-[-50%]">
-            <div className="best-selling-wheel flex transition-transform ease-linear delay-0">
-              {bestSelling ? (
-                bestSelling.map((item, index) => {
-                  return (
-                    <FeaturedItem
-                      key={item.productID}
-                      item={item}
-                      first={index === 0}
-                      last={index === bestSelling.length - 1}
-                      startDragging={startDragging}
-                      index={index}
-                    />
-                  );
-                })
-              ) : (
-                <p>loading</p>
-              )}
+            <div>
+              <div className="best-selling-wheel flex transition-transform ease-linear delay-0">
+                {bestSelling ? (
+                  bestSelling.map((item, index) => {
+                    return (
+                      <FeaturedItem
+                        key={item.productID}
+                        item={item}
+                        first={index === 0}
+                        last={index === bestSelling.length - 1}
+                        startDragging={startDragging}
+                        index={index}
+                      />
+                    );
+                  })
+                ) : (
+                  <p>loading</p>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="w-[94vw] absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] flex justify-between">
-            <div className="mx-2">
-              <IconButton onClick={() => moveWheelLeft()}>
-                <ArrowBackIcon fontSize="large" />
-              </IconButton>
-            </div>
-            <div className="mx-2">
-              <IconButton onClick={() => moveWheelRight()}>
-                <ArrowForwardIcon fontSize="large" />
-              </IconButton>
+            <div className="w-[94vw] absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-70%] flex justify-between">
+              <div className="mx-2">
+                <IconButton onClick={() => moveWheelLeft()}>
+                  <ArrowBackIcon fontSize="large" />
+                </IconButton>
+              </div>
+              <div className="mx-2">
+                <IconButton onClick={() => moveWheelRight()}>
+                  <ArrowForwardIcon fontSize="large" />
+                </IconButton>
+              </div>
             </div>
           </div>
         </div>

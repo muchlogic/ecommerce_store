@@ -7,6 +7,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import { Button, IconButton } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
+import Slider from "./HomeNav/Slider";
 
 function Home() {
   const [user, setUser] = useState(null); // user is jwt token
@@ -214,9 +215,10 @@ function Home() {
             ]}
           />
         </main>
-        <footer className="bg-[#6e6b6b] text-black py-6 h-[300px] flex justify-center">
-          <div className="links text-xl w-[88vw] flex justify-around flex-wrap">
-            <div className="">
+        <Slider />
+        <footer className="bg-[#6e6b6b] text-black py-6 h-[400px] flex justify-center">
+          <div className="links text-xl w-[88vw] flex justify-around flex-wrap gap-y-4">
+            <div className="px-4">
               <h1 className="text-2xl">Store Links</h1>
               <ul className="flex flex-col gap-2">
                 <li className="">
@@ -230,7 +232,7 @@ function Home() {
                 </li>
               </ul>
             </div>
-            <div className="">
+            <div className="px-4">
               <h1 className="text-2xl">Socials</h1>
               <ul className="flex flex-col lg:flex-row gap-2">
                 <li className="mr-2">
@@ -244,7 +246,7 @@ function Home() {
                 </li>
               </ul>
             </div>
-            <div>
+            <div className="px-4 pb-4">
               <form className="flex flex-col h-fit w-[30vw] min-w-[350px]">
                 <label htmlFor="news_input">
                   <h1 className="text-2xl">Newsletter</h1>
