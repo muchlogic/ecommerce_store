@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useOutletContext } from "react-router-dom";
+import { useParams, useOutletContext, Link } from "react-router-dom";
 import Modal from "../../Modal";
 
 function ProductPage() {
@@ -28,6 +28,15 @@ function ProductPage() {
       });
   }, []);
 
+  const cartWiggle = (e) => {
+    const cartIcon = document.getElementsByClassName("cart-icon")[0];
+    cartIcon.classList.add("animate-wiggle");
+
+    setTimeout(() => {
+      cartIcon.classList.remove("animate-wiggle");
+    }, 1000);
+  };
+
   const addToCartFromChild = () => {
     const exists = cart.some((item) => item.productID === product.productID);
     if (exists) {
@@ -42,6 +51,8 @@ function ProductPage() {
     } else {
       setCart([...cart, { ...product, amount: 1 }]);
     }
+
+    cartWiggle();
 
     const modal = document.getElementsByClassName("Modal")[0];
     modal.classList.replace("invisible", "visible");
@@ -104,9 +115,19 @@ function ProductPage() {
     }
   };
 
+  const addHiddenUnderlineText = (n) => {
+    const underline = document.getElementsByClassName("hidden-underline")[n];
+    underline.classList.replace("translate-x-[-110%]", "translate-x-0");
+  };
+
+  const removeHiddenUnderlineText = (n) => {
+    const underline = document.getElementsByClassName("hidden-underline")[n];
+    underline.classList.replace("translate-x-0", "translate-x-[-110%]");
+  };
+
   return (
     <>
-      <div className="px-[4vw] py-[4vh] relative flex justify-center h-[120vh]">
+      <div className="px-[4vw] py-[4vh] relative flex justify-center h-[140vh]">
         {product ? (
           <div className="flex space-x-5 justify-start md:justify-center flex-col items-center md:flex-row md:items-start">
             <div className="h-[550px] relative flex flex-col md:flex-row justify-center md:justify-end items-center md:items-start w-[46vw]">
@@ -146,18 +167,45 @@ function ProductPage() {
               </div>
             </div>
 
-            <div className="w-[76vw] md:w-[46vw]">
-              <h1 className="text-2xl m-2">{product.name}</h1>
-              <h1 className="text-2xl m-2">${product.price}</h1>
-              <p className="m-2">
+            <div className="w-[76vw] md:w-[46vw] m-2">
+              <div className="flex flex-col gap-y-1 border-b-[0.5px] border-slate-500">
+                <h1 className="flex gap-x-2">
+                  <Link
+                    to="/home"
+                    className="relative overflow-hidden h-[22px] hover:text-slate-500"
+                    onMouseOver={() => addHiddenUnderlineText(0)}
+                    onMouseLeave={() => removeHiddenUnderlineText(0)}
+                  >
+                    home
+                    <div className="hidden-underline transition-transform delay-50 translate-x-[-110%] bg-black w-full h-[0.5px] absolute top-5"></div>
+                  </Link>
+                  /
+                  <Link
+                    to="/home/shop"
+                    className="relative overflow-hidden h-[22px] hover:text-slate-500"
+                    onMouseOver={() => addHiddenUnderlineText(1)}
+                    onMouseLeave={() => removeHiddenUnderlineText(1)}
+                  >
+                    shop
+                    <div className="hidden-underline transition-transform delay-50 translate-x-[-110%] bg-black w-full h-[0.5px] absolute top-5"></div>
+                  </Link>
+                  /
+                </h1>
+                <h1 className="text-3xl font-semibold">{product.name}</h1>
+                <h1 className="text-2xl mb-2">${product.price}</h1>
+              </div>
+              <button
+                onClick={addToCartFromChild}
+                className="border-[0.5px] w-full py-4 border-slate-500 mt-10 mb-5 focus:outline-none focus:shadow-outline hover:text-slate-700"
+              >
+                <h1 className="text-xl">Add to cart</h1>
+              </button>
+              <p className="">
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex
                 amet mollitia dolore cumque aliquam deleniti molestiae accusamus
                 iure qui velit necessitatibus non sed sint, itaque omnis
                 voluptatem cupiditate! Neque, nihil?
               </p>
-              <button onClick={addToCartFromChild} className="m-2">
-                Add To Cart
-              </button>
             </div>
           </div>
         ) : (

@@ -9,6 +9,8 @@ export default {
         revealer: "reveal 5s ease 1",
         slide_in_out: "slide_in_out 5s ease 1 forwards",
         slide_left: "slide_left 25s linear infinite",
+        wiggle: "wiggle 1s linear 1",
+        sliding_underline: "sliding_underline 1s linear 1",
       },
       keyframes: {
         reveal: {
@@ -29,11 +31,20 @@ export default {
             transform: "translateX(-100%)",
           },
         },
-        slide_left_repeat: {
-          "0%, 100%": {
-            transform: "translateX(-500px)",
+        wiggle: {
+          "0%, 50%, 100%": {
+            transform: "rotate(0deg)",
           },
-          "40%, 80%": { transform: "translateX(0px)" },
+          "25%": {
+            transform: "rotate(10deg)",
+          },
+          "75%": {
+            transform: "rotate(-10deg)",
+          },
+        },
+        sliding_underline: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0)" },
         },
       },
     },

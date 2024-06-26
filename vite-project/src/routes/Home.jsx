@@ -184,10 +184,10 @@ function Home() {
 
             <Link to={`/Home/Cart`}>
               <IconButton>
-                <ShoppingCartIcon fontSize="large" />
+                <ShoppingCartIcon fontSize="large" className="cart-icon" />
                 {cart.length > 0 && (
-                  <div className="bg-white border-2 border-rose-500 rounded-full absolute h-5 w-5 top-0 right-0 text-sm ">
-                    <h1 className="absolute left-[50%] top-[42%] translate-x-[-50%] translate-y-[-50%]">
+                  <div className="bg-black text-white font-bold rounded-full absolute h-5 w-5 top-0 right-0 text-sm ">
+                    <h1 className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
                       {cart.length}
                     </h1>
                   </div>
