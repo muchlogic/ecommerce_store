@@ -143,7 +143,7 @@ function FeaturedProducts({}) {
           "pointer-events-none"
         );
       }
-    }, 80);
+    }, 150);
   };
 
   const stopDragging = (e) => {

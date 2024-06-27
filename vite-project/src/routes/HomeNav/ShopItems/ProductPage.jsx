@@ -7,7 +7,9 @@ function ProductPage() {
   const [currSlide, setCurrSlide] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cart, setCart] = useOutletContext();
+  const [quantity, setQuantity] = useState(1);
   const params = useParams();
+
   const images = ["img1", "img2", "img3", "img4"]; // temp imgs until backend ones
   useEffect(() => {
     window.scrollBy(0, -window.innerHeight);
@@ -37,19 +39,28 @@ function ProductPage() {
     }, 1000);
   };
 
+  const changeQuantity = (sign) => {
+    // change quanity before adding item to cart
+    if (sign == "+") {
+      setQuantity(quantity + 1);
+    } else {
+      if (quantity > 1) setQuantity(quantity - 1);
+    }
+  };
+
   const addToCartFromChild = () => {
     const exists = cart.some((item) => item.productID === product.productID);
     if (exists) {
       const newCart = cart.map((item) => {
         if (item.productID === product.productID) {
-          return { ...product, amount: item.amount + 1 };
+          return { ...product, amount: item.amount + quantity };
         } else {
           return item;
         }
       });
       setCart(newCart);
     } else {
-      setCart([...cart, { ...product, amount: 1 }]);
+      setCart([...cart, { ...product, amount: quantity }]);
     }
 
     cartWiggle();
@@ -161,7 +172,7 @@ function ProductPage() {
                 <div className="dot" onClick={(e) => changeSlide(1)}></div>
                 <div className="dot" onClick={(e) => changeSlide(2)}></div>
                 <div className="dot" onClick={(e) => changeSlide(3)}></div>
-              </div>{" "}
+              </div>
               <div className="main-img md:ml-2 bg-[green] h-[50vw] w-[32vw] hidden md:block">
                 {images[0]}
               </div>
@@ -177,7 +188,7 @@ function ProductPage() {
                     onMouseLeave={() => removeHiddenUnderlineText(0)}
                   >
                     home
-                    <div className="hidden-underline transition-transform delay-50 translate-x-[-110%] bg-black w-full h-[0.5px] absolute top-5"></div>
+                    <div className="hidden-underline transition-transform delay-100 ease-in translate-x-[-110%] bg-black w-full h-[0.5px] absolute top-5"></div>
                   </Link>
                   /
                   <Link
@@ -187,16 +198,33 @@ function ProductPage() {
                     onMouseLeave={() => removeHiddenUnderlineText(1)}
                   >
                     shop
-                    <div className="hidden-underline transition-transform delay-50 translate-x-[-110%] bg-black w-full h-[0.5px] absolute top-5"></div>
+                    <div className="hidden-underline transition-transform delay-100 ease-in translate-x-[-110%] bg-black w-full h-[0.5px] absolute top-5"></div>
                   </Link>
                   /
                 </h1>
                 <h1 className="text-3xl font-semibold">{product.name}</h1>
                 <h1 className="text-2xl mb-2">${product.price}</h1>
               </div>
+              <div className="border-[0.5px] border-slate-500 w-fit mt-6">
+                <div className="flex justify-around w-[120px] py-2">
+                  <button
+                    onClick={() => changeQuantity("-")}
+                    className="hover:text-slate-500"
+                  >
+                    <h1 className="text-3xl">-</h1>
+                  </button>
+                  <h1 className="text-xl">{quantity}</h1>
+                  <button
+                    onClick={() => changeQuantity("+")}
+                    className="hover:text-slate-500"
+                  >
+                    <h1 className="text-3xl">+</h1>
+                  </button>
+                </div>
+              </div>
               <button
                 onClick={addToCartFromChild}
-                className="border-[0.5px] w-full py-4 border-slate-500 mt-10 mb-5 focus:outline-none focus:shadow-outline hover:text-slate-700"
+                className="border-[0.5px] w-full py-4 border-slate-500 mt-6 mb-5 focus:outline-none focus:shadow-outline hover:text-slate-700"
               >
                 <h1 className="text-xl">Add to cart</h1>
               </button>
