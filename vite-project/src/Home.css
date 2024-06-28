@@ -1,7 +1,7 @@
 .slider {
-  @apply relative h-[600px];
+  @apply relative h-[760px];
   div {
-    @apply w-full h-[600px] absolute first:z-[1] last:z-[0]  transition-all ease-in delay-200;
+    @apply w-full h-[760px] absolute first:z-[1] last:z-[0]  transition-all ease-in delay-200;
   }
 }
 

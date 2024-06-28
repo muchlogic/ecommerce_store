@@ -3,7 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 import { Button, IconButton } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import FeaturedItem from "./FeaturedItem2";
+import FeaturedItem from "./FeaturedItem";
 
 // Featued Product Slider for Home page
 function FeaturedProducts({}) {

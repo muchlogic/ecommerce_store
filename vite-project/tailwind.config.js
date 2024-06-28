@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       animation: {
-        revealer: "reveal 5s ease 1",
+        revealer: "reveal 2.5s ease 1",
         slide_in_out: "slide_in_out 5s ease 1 forwards",
         slide_left: "slide_left 25s linear infinite",
         wiggle: "wiggle 1s linear 1",
@@ -14,8 +14,8 @@ export default {
       },
       keyframes: {
         reveal: {
-          "0%": { transform: "translateX(-1000px)" },
-          "100%": { transform: "translateX(0)" },
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
         slide_in_out: {
           "0%, 100%": {

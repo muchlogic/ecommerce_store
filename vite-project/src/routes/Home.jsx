@@ -144,16 +144,16 @@ function Home() {
       <header className="bg-white border-b-[0.5px] border-slate-500">
         <nav className="flex justify-between items-center w-[92%] h-20 mx-auto">
           <Link to="/home">
-            <h1 className="text-3xl font-bold underline text-[black] z-20 w-[140px] flex items-center justify-center">
+            <h1 className="text-3xl font-bold underline text-[black] z-20 w-[200px] flex items-center justify-center">
               LOGO
             </h1>
           </Link>
           <div
             className={`transition-all ease-in-out delay-[1] nav-links ${showLinksString} absolute md:relative bg-white md:top-auto left-0 w-full md:w-auto z-10 border-b-[0.5px] border-slate-500 md:border-none`}
           >
-            <ul className="relative flex flex-col md:flex-row items-center md:gap-[4vw] px-5">
+            <ul className="relative flex flex-col md:flex-row justify-center items-center md:gap-[4vw] px-5">
               <li className="py-2">
-                <Link onClick={show_nav_links} to={``}>
+                <Link onClick={show_nav_links} to="/home">
                   <h1 className="text-black text-2xl hover:text-[#aca4a4] ">
                     Home
                   </h1>
@@ -175,7 +175,7 @@ function Home() {
               </li>
             </ul>
           </div>
-          <div className="flex z-20 justify-center w-[140px]">
+          <div className="flex z-20 justify-center w-[200px]">
             <Link to={user && valid ? "/Home/Profile" : "/Login"}>
               <IconButton>
                 <AccountBoxIcon fontSize="large" />

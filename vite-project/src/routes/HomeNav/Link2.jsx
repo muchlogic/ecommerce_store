@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
-import FeaturedProducts from "./FeaturedProducts2";
-// import FeaturedProducts from "./FeaturedProducts";
+import FeaturedProducts from "./FeaturedProducts";
 
 function Link2() {
   const [currSlide, setCurrSlide] = useState(0);
   const [currWord, setCurrWord] = useState(0);
+  const [scroll, setScroll] = useState(window.scroll);
 
   useEffect(() => {
     //Implementing the setInterval method
@@ -53,6 +53,39 @@ function Link2() {
     setCurrWord(next);
   };
 
+  function topInVeiwport(value) {
+    const item = value.getBoundingClientRect();
+    return item.top >= "0";
+  }
+
+  const featuredProds = document.getElementsByClassName("featured-products")[0];
+  const scrollingText =
+    document.getElementsByClassName("scrolling-text-box")[0];
+  const slidingText = document.getElementsByClassName("sliding-text-box")[0];
+  useEffect(() => {
+    const handleScroll = () => {
+      setScroll(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // adjust slider pos when window wisth changes
+    if (featuredProds && topInVeiwport(featuredProds)) {
+      featuredProds.classList.replace("invisible", "animate-revealer");
+    } else if (scrollingText && topInVeiwport(scrollingText)) {
+      scrollingText.classList.replace("invisible", "animate-revealer");
+    } else if (slidingText && topInVeiwport(slidingText)) {
+      slidingText.classList.replace("invisible", "animate-revealer");
+    }
+  }, [scroll]);
+
   return (
     <>
       <div className="slider-container relative">
@@ -67,11 +100,12 @@ function Link2() {
           <div className="dot" onClick={(e) => changeSlide(2)}></div>
         </div>
       </div>
-
-      <FeaturedProducts />
+      <div className="featured-products invisible">
+        <FeaturedProducts />
+      </div>
 
       <div className="About-container mt-10">
-        <div className="bg-[grey] h-[70vh] relative">
+        <div className="scrolling-text-box bg-[grey] h-[80vh] relative invisible">
           <div className="w-[80vw] md:w-[40vw] sticky top-0 pt-[40px] mb-[40px] mx-auto md:ml-[6vw]">
             <div className="text-[blue] bg-white p-10 w-[80vw] md:w-[40vw]">
               <h1>
@@ -83,7 +117,7 @@ function Link2() {
             </div>
           </div>
         </div>
-        <div className="relative bg-[black] font-bold text-white ">
+        <div className="sliding-text-box relative bg-[black] font-bold text-white invisible">
           <div className="h-[100vh] relative flex flex-col gap-4 justify-center items-end md:items-start mx-[4vw] text-3xl md:text-6xl ">
             <div className="">
               <h1>Listen to the song</h1>
