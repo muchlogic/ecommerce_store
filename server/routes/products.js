@@ -87,4 +87,26 @@ router.get("/categories", async (req, res) => {
   }
 });
 
+// add review to product
+router.post("/review", async (req, res) => {
+  try {
+    let result = await products.updateOne(
+      { productID: req.body.productID },
+      {
+        $push: {
+          reviews: {
+            name: req.body.name,
+            rating: req.body.rating,
+            desc: req.body.desc,
+          },
+        },
+      }
+    );
+
+    res.status(200).json("review created");
+  } catch (error) {
+    res.status(500).json(`internal server error`);
+  }
+});
+
 module.exports = router;

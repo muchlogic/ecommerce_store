@@ -1,6 +1,22 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+// const reviewSchema = new Schema({
+//   // nested schema for reviews
+//   reviewer: {
+//     type: String,
+//     required: false,
+//   },
+//   text: {
+//     type: Number,
+//     required: false,
+//   },
+//   date: {
+//     type: String,
+//     required: false,
+//   },
+// });
+
 // user schema for users
 const productSchema = new Schema({
   name: {
@@ -26,6 +42,10 @@ const productSchema = new Schema({
   images: {
     type: Array,
     required: true, // Only if you want to make the image URL optional
+  },
+  reviews: {
+    type: Array,
+    required: false,
   },
 });
 
