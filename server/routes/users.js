@@ -31,6 +31,22 @@ router.get("/get-cart", authenticateToken, async (req, res) => {
   }
 });
 
+router.get("/get-review/:productID", authenticateToken, async (req, res) => {
+  try {
+    // 1. get reviews with email
+    const result = await users.findOne({ email: req.user.email });
+    // 2. examine update object for result
+
+    const reviews = result.reviews;
+    const review = reviews.find(
+      (review) => review.productID === req.params.productID
+    );
+    res.status(200).json(review);
+  } catch (err) {
+    res.status(500).json("server error");
+  }
+});
+
 router.post("/update-password", authenticateToken, async (req, res) => {
   try {
     // 1. update password with email

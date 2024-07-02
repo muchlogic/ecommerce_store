@@ -1,23 +1,27 @@
 import { useState, useEffect } from "react";
 import { useParams, useOutletContext, Link } from "react-router-dom";
 import Modal from "../../Modal";
+import Rating from "@mui/material/Rating";
 
 function ProductPage() {
   const [product, setProduct] = useState(null);
   const [currSlide, setCurrSlide] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
-  const [cart, setCart] = useOutletContext();
   const [quantity, setQuantity] = useState(1);
   const [reviewState, setReviewState] = useState(0); // 0 means Reviews is active, 1 means "Leave Review is active"
   const params = useParams();
 
   const images = ["img1", "img2", "img3", "img4"]; // temp imgs until backend ones
+  const [cart, setCart, user, setUser, refreshToken, setRefreshToken] =
+    useOutletContext();
+  const [userReview, setUserReview] = useState(null);
+  const [canReview, setCanReview] = useState(false);
 
   const [name, setName] = useState("");
   const [rating, setRating] = useState(0);
+  const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-
   useEffect(() => {
     // window.scrollBy(0, -window.innerHeight);
     fetch(`https://localhost:3000/products/product/${params.id}`, {
@@ -36,7 +40,46 @@ function ProductPage() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+
+    if (refreshToken)
+      fetch(`https://localhost:3000/signin/refresh`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: refreshToken,
+        }),
+      })
+        .then((response) => {
+          let status_code = response.status; // examine status codes
+          if (status_code == 200) setCanReview(true); // let user review if they are logged in and in a valid session
+          return response.json();
+        })
+        .then((data) => {})
+        .catch((error) => {});
+  }, [user, refreshToken]);
+
+  useEffect(() => {
+    if (user && product)
+      fetch(`https://localhost:3000/users/get-review/${product.productID}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user}`,
+        },
+      })
+        .then((response) => {
+          let status_code = response.status; // examine status codes
+          return response.json();
+        })
+        .then((data) => {
+          setUserReview(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  });
 
   const cartWiggle = (e) => {
     const cartIcon = document.getElementsByClassName("cart-icon")[0];
@@ -156,8 +199,12 @@ function ProductPage() {
     setName(e.target.value);
   };
 
-  const handleRating = (e) => {
-    setRating(e.target.value);
+  const handleRating = (n) => {
+    setRating(n);
+  };
+
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
   };
 
   const handleDesc = (e) => {
@@ -165,16 +212,18 @@ function ProductPage() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     fetch(`https://localhost:3000/products/review`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${user}`,
       },
       body: JSON.stringify({
         productID: product.productID,
         name: name,
         rating: rating,
+        title: title,
         desc: desc,
       }),
     })
@@ -182,7 +231,7 @@ function ProductPage() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        setProduct(data.result);
         // open modal with msg saying review was created, also return updated product with review list
       })
       .catch((error) => {
@@ -321,8 +370,14 @@ function ProductPage() {
                       >
                         <div className="flex flex-col w-[20%] text-xl">
                           <h1>{review.name}</h1>
-                          <h1>Rating: {review.rating}</h1>
-                          <h1>Placeholder Date</h1>
+                          <Rating
+                            name="half-rating-read"
+                            defaultValue={review.rating}
+                            precision={0.5}
+                            readOnly
+                          />
+                          <h1>{review.title}</h1>
+                          <h1>{review.date}</h1>
                         </div>
                         <div className="flex flex-col w-auto">
                           <h1 className="text-xl">Placeholder Title</h1>
@@ -338,50 +393,66 @@ function ProductPage() {
             )}
           </>
         ) : (
-          <form className="flex flex-col h-fit w-full min-w-[350px] py-4 px-8">
-            <div>
-              <label className="label block mb-2">
-                <h1 className="">Name</h1>
-              </label>
-              <input
-                className="shadow appearance-none border border-slate-500 rounded w-[20%] min-w-[300px] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={handleName}
-                value={name}
-                type="text"
-              />
-            </div>
-            <div>
-              <label className="label block mb-2">
-                <h1>Rating</h1>
-              </label>
-              <input
-                className="shadow appearance-none border border-slate-500 rounded w-[20%] min-w-[300px] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={handleRating}
-                value={rating}
-                type="text"
-              />
-            </div>
-            <div>
-              <label for="review" className="label block mb-2">
-                <h1>Description</h1>
-              </label>
-              <textarea
-                id="review"
-                className="shadow appearance-none border border-slate-500 rounded w-full min-h-[30vh] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={handleDesc}
-                value={desc}
-              ></textarea>
-            </div>
-            <div>
-              <button
-                className="btn bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={(e) => handleSubmit(e)}
-                type="submit"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+          <>
+            {canReview ? (
+              <form className="flex flex-col h-fit w-full min-w-[350px] py-4 px-8">
+                <div>
+                  <label className="label block mb-2">
+                    <h1 className="">Name</h1>
+                  </label>
+                  <input
+                    className="shadow appearance-none border border-slate-500 rounded w-[20%] min-w-[300px] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    onChange={handleName}
+                    value={name}
+                    type="text"
+                  />
+                </div>
+                <div>
+                  <Rating
+                    name="half-rating"
+                    defaultValue={0}
+                    precision={0.5}
+                    onChange={(event, newValue) => {
+                      handleRating(newValue);
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="label block mb-2">
+                    <h1 className="">Title</h1>
+                  </label>
+                  <input
+                    className="shadow appearance-none border border-slate-500 rounded w-[20%] min-w-[300px] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    onChange={handleTitle}
+                    value={title}
+                    type="text"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="review" className="label block mb-2">
+                    <h1>Review</h1>
+                  </label>
+                  <textarea
+                    id="review"
+                    className="shadow appearance-none border border-slate-500 rounded w-full min-h-[30vh] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    onChange={handleDesc}
+                    value={desc}
+                  ></textarea>
+                </div>
+                <div>
+                  <button
+                    className="btn bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    onClick={(e) => handleSubmit(e)}
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <h1>Sign in to leave a review</h1>
+            )}
+          </>
         )}
       </div>
       <Modal message="Item added to cart" />

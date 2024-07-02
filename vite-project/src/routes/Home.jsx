@@ -12,6 +12,7 @@ import Slider from "./HomeNav/Slider";
 function Home() {
   const [user, setUser] = useState(null); // user is jwt token
   const [refreshToken, setRefreshToken] = useState(null);
+  const [update, setUpdate] = useState(0);
   const [showLinks, setShowLinks] = useState(false);
   const [valid, setValid] = useState(false);
   const [cart, setCart] = useState([]);
@@ -96,7 +97,7 @@ function Home() {
     }
     // if user is not logged in and both carts are empty, use base ([])
     // do nothing
-  }, [0]);
+  }, []);
 
   // overhead for cart when changed
   useEffect(() => {
@@ -212,6 +213,7 @@ function Home() {
               setUser,
               refreshToken,
               setRefreshToken,
+              setUpdate,
             ]}
           />
         </main>

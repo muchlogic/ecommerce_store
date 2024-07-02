@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const products = require("../models/sellerProductModel");
+const users = require("../models/userModel");
+const jwt = require("jsonwebtoken");
 
 // post new product to db
 // body contains product info:
@@ -88,25 +90,56 @@ router.get("/categories", async (req, res) => {
 });
 
 // add review to product
-router.post("/review", async (req, res) => {
+router.post("/review", authenticateToken, async (req, res) => {
   try {
     let result = await products.updateOne(
       { productID: req.body.productID },
       {
         $push: {
           reviews: {
+            email: req.user.email, // store email of reviewer for editing
             name: req.body.name,
             rating: req.body.rating,
+            title: req.body.title,
             desc: req.body.desc,
+            date: new Date(),
           },
         },
       }
     );
+    let result2 = await users.updateOne(
+      { email: req.user.email },
+      {
+        $push: {
+          reviews: {
+            productID: req.body.productID,
+            name: req.body.name,
+            rating: req.body.rating,
+            title: req.body.title,
+            desc: req.body.desc,
+            date: new Date(),
+          },
+        },
+      }
+    );
+    let product = await products.findOne({ productID: req.body.productID }); // retrieve updated product
 
-    res.status(200).json("review created");
+    res.status(200).json({ product: product });
   } catch (error) {
     res.status(500).json(`internal server error`);
   }
 });
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
 
 module.exports = router;

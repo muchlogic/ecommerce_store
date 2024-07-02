@@ -44,6 +44,10 @@ const userSchema = new Schema({
     type: Array,
     require: true,
   },
+  reviews: {
+    type: Array,
+    require: true,
+  },
   countryOrRegion: {
     type: String,
     require: false,
