@@ -130,6 +130,49 @@ router.post("/review", authenticateToken, async (req, res) => {
   }
 });
 
+// add review to product
+router.post("/update-review", authenticateToken, async (req, res) => {
+  try {
+    let updatedReview = {
+      email: req.user.email,
+      name: req.body.name,
+      rating: req.body.rating,
+      title: req.body.title,
+      desc: req.body.desc,
+      date: new Date(),
+    };
+
+    let updatedReview2 = {
+      productID: req.body.productID,
+      name: req.body.name,
+      rating: req.body.rating,
+      title: req.body.title,
+      desc: req.body.desc,
+      date: new Date(),
+    };
+
+    let result = await products
+      .findOne({ productID: req.body.productID })
+      .updateOne(
+        { "reviews.email": req.user.email },
+        { $set: { "reviews.$": updatedReview } }
+      );
+
+    let result2 = await users
+      .findOne({ email: req.user.email })
+      .updateOne(
+        { "reviews.productID": req.body.productID },
+        { $set: { "reviews.$": updatedReview2 } }
+      );
+
+    // let product = await products.findOne({ productID: req.body.productID }); // retrieve updated product
+
+    res.status(200).json("updated");
+  } catch (error) {
+    res.status(500).json(`internal server error`);
+  }
+});
+
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];

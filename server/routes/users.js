@@ -36,12 +36,11 @@ router.get("/get-review/:productID", authenticateToken, async (req, res) => {
     // 1. get reviews with email
     const result = await users.findOne({ email: req.user.email });
     // 2. examine update object for result
+    // const review = await result.reviews.find(
+    //   (item) => item.productID === req.params.productID
+    // );
 
-    const reviews = result.reviews;
-    const review = reviews.find(
-      (review) => review.productID === req.params.productID
-    );
-    res.status(200).json(review);
+    res.status(200).json(result.reviews);
   } catch (err) {
     res.status(500).json("server error");
   }

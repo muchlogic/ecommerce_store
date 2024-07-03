@@ -6,7 +6,6 @@ import Rating from "@mui/material/Rating";
 function ProductPage() {
   const [product, setProduct] = useState(null);
   const [currSlide, setCurrSlide] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [reviewState, setReviewState] = useState(0); // 0 means Reviews is active, 1 means "Leave Review is active"
@@ -22,8 +21,8 @@ function ProductPage() {
   const [rating, setRating] = useState(0);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  useEffect(() => {
-    // window.scrollBy(0, -window.innerHeight);
+
+  const fetchProduct = () => {
     fetch(`https://localhost:3000/products/product/${params.id}`, {
       method: "GET",
       headers: {
@@ -40,6 +39,39 @@ function ProductPage() {
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const fetchUserReviews = () => {
+    fetch(`https://localhost:3000/users/get-review/${product.productID}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user}`,
+      },
+    })
+      .then((response) => {
+        let status_code = response.status; // examine status codes
+        return response.json();
+      })
+      .then((data) => {
+        let userProductReview = data.find(
+          (item) => item.productID === product.productID
+        );
+        if (userProductReview !== undefined) {
+          setUserReview(userProductReview);
+          setName(userProductReview.name);
+          setRating(userProductReview.rating);
+          setTitle(userProductReview.title);
+          setDesc(userProductReview.desc);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchProduct();
 
     if (refreshToken)
       fetch(`https://localhost:3000/signin/refresh`, {
@@ -58,28 +90,13 @@ function ProductPage() {
         })
         .then((data) => {})
         .catch((error) => {});
-  }, [user, refreshToken]);
+  }, [0, refreshToken]);
 
   useEffect(() => {
-    if (user && product)
-      fetch(`https://localhost:3000/users/get-review/${product.productID}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user}`,
-        },
-      })
-        .then((response) => {
-          let status_code = response.status; // examine status codes
-          return response.json();
-        })
-        .then((data) => {
-          setUserReview(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  });
+    if (user && product) {
+      fetchUserReviews();
+    }
+  }, [user, product]);
 
   const cartWiggle = (e) => {
     const cartIcon = document.getElementsByClassName("cart-icon")[0];
@@ -212,8 +229,14 @@ function ProductPage() {
   };
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    fetch(`https://localhost:3000/products/review`, {
+    e.preventDefault();
+    let fetchUrl = `https://localhost:3000/products/review`;
+    if (userReview) {
+      // since user has reviewed this product switch Urls to update their previous
+      fetchUrl = `https://localhost:3000/products/update-review`;
+    }
+
+    fetch(fetchUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -231,8 +254,10 @@ function ProductPage() {
         return response.json();
       })
       .then((data) => {
-        setProduct(data.result);
         // open modal with msg saying review was created, also return updated product with review list
+        fetchProduct();
+        fetchUserReviews();
+        setReviewState(0);
       })
       .catch((error) => {
         console.error(error);
@@ -410,7 +435,7 @@ function ProductPage() {
                 <div>
                   <Rating
                     name="half-rating"
-                    defaultValue={0}
+                    defaultValue={rating}
                     precision={0.5}
                     onChange={(event, newValue) => {
                       handleRating(newValue);
@@ -445,7 +470,7 @@ function ProductPage() {
                     onClick={(e) => handleSubmit(e)}
                     type="submit"
                   >
-                    Submit
+                    {userReview ? "Edit review" : "Submit"}
                   </button>
                 </div>
               </form>
