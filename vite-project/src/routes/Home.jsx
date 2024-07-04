@@ -218,7 +218,7 @@ function Home() {
           />
         </main>
         <Slider />
-        <footer className="bg-[#6e6b6b] text-black py-6 h-[400px] flex justify-center">
+        <footer className="relative bg-[#6e6b6b] text-black py-6 h-[400px] flex justify-center">
           <div className="links text-xl w-[88vw] flex justify-around flex-wrap gap-y-4">
             <div className="px-4">
               <h1 className="text-2xl">Store Links</h1>
