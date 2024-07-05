@@ -8,6 +8,7 @@ function ProductPage() {
   const [product, setProduct] = useState(null);
   const [currSlide, setCurrSlide] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [rating, setRating] = useState();
   const params = useParams();
 
   const images = ["img1", "img2", "img3", "img4"]; // temp imgs until backend ones
@@ -26,6 +27,7 @@ function ProductPage() {
       })
       .then((data) => {
         setProduct(data);
+        setRating(Math.round(data.totalRating / data.reviews.length, 1));
       })
       .catch((error) => {
         console.error(error);
@@ -141,7 +143,6 @@ function ProductPage() {
     const underline = document.getElementsByClassName("hidden-underline")[n];
     underline.classList.replace("translate-x-0", "translate-x-[-110%]");
   };
-
   return (
     <>
       <div className="px-[4vw] py-[4vh] relative flex-col items-center h-auto md:h-[55vw]">
@@ -210,6 +211,15 @@ function ProductPage() {
                     /
                   </h1>
                   <h1 className="text-3xl font-semibold">{product.name}</h1>
+                  <div>
+                    <Rating
+                      name="half-rating-read"
+                      value={rating}
+                      precision={0.1}
+                      readOnly
+                    />
+                  </div>
+
                   <h1 className="text-2xl mb-2">${product.price}</h1>
                 </div>
                 <div className="border-[0.5px] border-slate-500 w-fit mt-6">

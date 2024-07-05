@@ -105,8 +105,12 @@ router.post("/review", authenticateToken, async (req, res) => {
             date: new Date(),
           },
         },
+        $inc: { totalRating: parseInt(req.body.rating) },
       }
     );
+
+    console.log(result);
+
     let result2 = await users.updateOne(
       { email: req.user.email },
       {
@@ -122,8 +126,8 @@ router.post("/review", authenticateToken, async (req, res) => {
         },
       }
     );
-    let product = await products.findOne({ productID: req.body.productID }); // retrieve updated product
 
+    let product = await products.findOne({ productID: req.body.productID }); // retrieve updated product
     res.status(200).json({ product: product });
   } catch (error) {
     res.status(500).json(`internal server error`);
@@ -155,7 +159,18 @@ router.post("/update-review", authenticateToken, async (req, res) => {
       .findOne({ productID: req.body.productID })
       .updateOne(
         { "reviews.email": req.user.email },
-        { $set: { "reviews.$": updatedReview } }
+        {
+          $set: { "reviews.$": updatedReview },
+        }
+      );
+
+    result = await products
+      .findOne({ productID: req.body.productID })
+      .updateOne(
+        { "reviews.email": req.user.email },
+        {
+          $inc: { totalRating: req.body.rating - req.body.oldRating },
+        }
       );
 
     let result2 = await users
@@ -165,7 +180,18 @@ router.post("/update-review", authenticateToken, async (req, res) => {
         { $set: { "reviews.$": updatedReview2 } }
       );
 
-    // let product = await products.findOne({ productID: req.body.productID }); // retrieve updated product
+    let product = await products.findOne({ productID: req.body.productID });
+    let newRating = 0;
+
+    for (let i = 0; i < product.reviews.length; i++) {
+      newRating += product.reviews[i].rating;
+    }
+    newRating = newRating / product.reviews.length;
+
+    await products.updateOne(
+      { productID: req.body.productID },
+      { $set: { rating: newRating } }
+    );
 
     res.status(200).json("updated");
   } catch (error) {

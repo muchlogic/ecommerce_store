@@ -18,6 +18,8 @@ function ReviewSection({ product, fetchProduct }) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
 
+  const [oldRating, setOldRating] = useState(0); // in case of edit review store old rating for easy backend adjust
+
   const [arrowRotation, setArrowRotation] = useState(0);
 
   const fetchUserReviews = () => {
@@ -42,6 +44,7 @@ function ReviewSection({ product, fetchProduct }) {
           setRating(userProductReview.rating);
           setTitle(userProductReview.title);
           setDesc(userProductReview.desc);
+          setOldRating(userProductReview.rating);
         }
       })
       .catch((error) => {
@@ -123,6 +126,7 @@ function ReviewSection({ product, fetchProduct }) {
         rating: rating,
         title: title,
         desc: desc,
+        oldRating: oldRating,
       }),
     })
       .then((response) => {
@@ -204,7 +208,7 @@ function ReviewSection({ product, fetchProduct }) {
                               </h1>
                               <Rating
                                 name="half-rating-read"
-                                defaultValue={review.rating}
+                                value={review.rating}
                                 precision={0.5}
                                 readOnly
                               />
@@ -242,7 +246,7 @@ function ReviewSection({ product, fetchProduct }) {
                     <div>
                       <Rating
                         name="half-rating"
-                        defaultValue={rating}
+                        value={rating}
                         precision={0.5}
                         onChange={(event, newValue) => {
                           handleRating(newValue);

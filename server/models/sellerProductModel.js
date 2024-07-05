@@ -47,6 +47,10 @@ const productSchema = new Schema({
     type: Array,
     required: false,
   },
+  totalRating: {
+    type: Number,
+    required: false,
+  },
 });
 
 const product = model("product", productSchema);
