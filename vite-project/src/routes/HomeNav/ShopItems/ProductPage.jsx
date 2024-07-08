@@ -145,12 +145,12 @@ function ProductPage() {
   };
   return (
     <>
-      <div className="px-[4vw] py-[4vh] relative flex-col items-center h-auto md:h-[55vw]">
+      <div className="px-[4vw] py-[4vh] relative flex-col items-center">
         {product ? (
           <>
-            <div className="flex space-x-5 justify-start md:justify-center flex-col items-center md:flex-row md:items-start">
-              <div className="h-[550px] relative flex flex-col md:flex-row justify-center md:justify-end items-center md:items-start w-[46vw]">
-                <div className="flex justify-evenly w-[80vw] md:w-[8vw] mb-10 md:mb-0">
+            <div className="relative flex space-x-5 justify-start md:justify-center flex-col items-center md:flex-row md:items-start h-auto">
+              <div className="pictures md:sticky md:top-5 md:mb-5 flex flex-col md:flex-row justify-center md:justify-end items-center md:items-start w-[46vw]">
+                <div className="relative flex justify-evenly w-[80vw] mb-4 md:w-[8vw] md:mb-0">
                   <ul
                     onMouseMove={(e) => move(e)}
                     onMouseDown={(e) => startDragging(e)}
@@ -171,17 +171,17 @@ function ProductPage() {
                       );
                     })}
                   </ul>
+                  <div className="navigation-button absolute bottom-0 flex justify-center md:hidden w-[30vw] mb-2">
+                    <div
+                      className="dot active"
+                      onClick={(e) => changeSlide(0)}
+                    ></div>
+                    <div className="dot" onClick={(e) => changeSlide(1)}></div>
+                    <div className="dot" onClick={(e) => changeSlide(2)}></div>
+                    <div className="dot" onClick={(e) => changeSlide(3)}></div>
+                  </div>
                 </div>
-                <div className="navigation-button flex justify-center md:hidden w-[30vw]">
-                  <div
-                    className="dot active"
-                    onClick={(e) => changeSlide(0)}
-                  ></div>
-                  <div className="dot" onClick={(e) => changeSlide(1)}></div>
-                  <div className="dot" onClick={(e) => changeSlide(2)}></div>
-                  <div className="dot" onClick={(e) => changeSlide(3)}></div>
-                </div>
-                <div className="main-img relative md:ml-2 bg-[green] h-[50vw] w-[32vw] hidden md:block">
+                <div className="main-img relative md:ml-2 bg-[green] h-[45vw] w-[32vw] hidden md:block">
                   {images[0]}
                 </div>
               </div>
@@ -245,6 +245,36 @@ function ProductPage() {
                 >
                   <h1 className="text-xl">Add to cart</h1>
                 </button>
+                <p className="">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex
+                  amet mollitia dolore cumque aliquam deleniti molestiae
+                  accusamus iure qui velit necessitatibus non sed sint, itaque
+                  omnis voluptatem cupiditate! Neque, nihil?
+                </p>
+                <p className="">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex
+                  amet mollitia dolore cumque aliquam deleniti molestiae
+                  accusamus iure qui velit necessitatibus non sed sint, itaque
+                  omnis voluptatem cupiditate! Neque, nihil?
+                </p>
+                <p className="">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex
+                  amet mollitia dolore cumque aliquam deleniti molestiae
+                  accusamus iure qui velit necessitatibus non sed sint, itaque
+                  omnis voluptatem cupiditate! Neque, nihil?
+                </p>
+                <p className="">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex
+                  amet mollitia dolore cumque aliquam deleniti molestiae
+                  accusamus iure qui velit necessitatibus non sed sint, itaque
+                  omnis voluptatem cupiditate! Neque, nihil?
+                </p>
+                <p className="">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex
+                  amet mollitia dolore cumque aliquam deleniti molestiae
+                  accusamus iure qui velit necessitatibus non sed sint, itaque
+                  omnis voluptatem cupiditate! Neque, nihil?
+                </p>
                 <p className="">
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex
                   amet mollitia dolore cumque aliquam deleniti molestiae
