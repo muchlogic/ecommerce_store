@@ -164,7 +164,7 @@ function Checkout({}) {
                 let status_code = response.status; // examine status code
                 if (status_code == 200) {
                   console.log("Order has been placed");
-                  navigate("/home/thank-you");
+                  navigate("/thank-you");
                 } else {
                   console.log("Order has not been placed due to error");
                 }

@@ -21,55 +21,47 @@ import ThankYou from "./routes/Checkout/ThankYou";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
-  },
-  {
-    path: "/home",
     element: <Home />,
     children: [
       {
-        path: "/home/",
+        path: "/",
         element: <Link2 />, // temp
       },
       {
-        path: "/home/about",
+        path: "/about",
         element: <About />, // temp
       },
       {
-        path: "/home/shop",
+        path: "/shop",
         element: <Products />, // temp
       },
       {
-        path: "/home/shop/:category",
+        path: "/shop/:category",
         element: <AllProducts />,
       },
       {
-        path: "/home/Link3",
-        element: <About />, // temp
-      },
-      {
-        path: "/home/product-page/:id",
+        path: "/product-page/:id",
         element: <ProductPage />,
       },
       {
-        path: "/home/cart",
+        path: "/cart",
         element: <Cart />,
       },
-      { path: "/home/checkout", element: <Checkout /> },
+      { path: "/checkout", element: <Checkout /> },
       {
-        path: "/home/profile",
+        path: "/profile",
         element: <Profile />, // temp
       },
       {
-        path: "/home/change-password",
+        path: "/change-password",
         element: <ChangePassword />,
       },
       {
-        path: "/home/veiw-order",
+        path: "/veiw-order",
         element: <VeiwOrder />,
       },
       {
-        path: "/home/thank-you",
+        path: "/thank-you",
         element: <ThankYou />,
       },
     ],

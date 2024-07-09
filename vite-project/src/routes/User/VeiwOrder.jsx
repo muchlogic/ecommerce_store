@@ -6,7 +6,6 @@ function VeiwOrder() {
   const [cart, setCart, user, setUser, refreshToken, setRefreshToken] =
     useOutletContext();
 
-  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {

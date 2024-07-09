@@ -11,7 +11,7 @@ function ProductPreview({ product, third }) {
       <li>
         {product.name ? (
           <div className={"bg-slate-500 hover:bg-slate-700 " + classValue}>
-            <Link to={`/home/product-page/${product.productID}`}>
+            <Link to={`/product-page/${product.productID}`}>
               <div className="h-[400px]">
                 <h1>{product.name}</h1>
               </div>

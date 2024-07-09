@@ -13,13 +13,13 @@ function FeaturedItem({ item, first, last, startDragging, index }) {
             (last ? " md:mr-0" : " ")
           }
         >
-          <Link to={`/Home/product-page/${item.productID}`} draggable="false">
+          <Link to={`/product-page/${item.productID}`} draggable="false">
             <div className="text-white text-3xl w-[300px] h-[300px] bg-slate-600 hover:bg-slate-700 transition-colors ease-in-out">
               {index}
             </div>
           </Link>
 
-          <Link to={`/Home/product-page/${item.productID}`} draggable="false">
+          <Link to={`/product-page/${item.productID}`} draggable="false">
             <div className="flex flex-col justify-center items-center hover:text-[#685d5d]">
               <h1>{item.name}</h1>
               <h1>From ${item.price}</h1>

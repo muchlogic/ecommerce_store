@@ -101,7 +101,7 @@ function Profile() {
                           <h1 className="">{order.date.substr(0, 10)}</h1>
                           <h1>Order received</h1>
                           <h1>${order.total}</h1>
-                          <Link to="/Home/veiw-order" state={{ order: order }}>
+                          <Link to="/veiw-order" state={{ order: order }}>
                             <h1 className="text-[blue] hover:text-[#685d5d]">
                               Veiw details
                             </h1>

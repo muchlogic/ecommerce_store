@@ -116,12 +116,12 @@ function Cart({}) {
                     className="w-[100%] flex flex-col md:flex-row justify-between my-4 relative border-b-[0.5px] border-gray-600 pb-4"
                   >
                     <div className="flex min-w-[350px] ">
-                      <Link to={`../ProductPage/${item.productID}`}>
+                      <Link to={`/product-page/${item.productID}`}>
                         <div className="min-w-[200px] w-[200px] min-h-[200px] bg-[green] md:bg-[blue]"></div>
                       </Link>
                       <Link
                         className="h-fit"
-                        to={`../ProductPage/${item.productID}`}
+                        to={`/product-page/${item.productID}`}
                       >
                         <h1 className="my-1 mx-4 h-fit">{item.name}</h1>
                       </Link>
@@ -154,7 +154,7 @@ function Cart({}) {
             </div>
             <div className="relative text-2xl w-[100%] h-[6vh]">
               <div className="w-fit absolute right-0 mx-4">
-                <Link to="/Home/Checkout">
+                <Link to="/checkout">
                   <h1 className="bg-slate-500 hover:bg-slate-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Checkout
                   </h1>

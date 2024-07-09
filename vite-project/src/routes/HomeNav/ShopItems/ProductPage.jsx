@@ -190,7 +190,7 @@ function ProductPage() {
                 <div className="flex flex-col gap-y-1 border-b-[0.5px] border-slate-500">
                   <h1 className="flex gap-x-2">
                     <Link
-                      to="/home"
+                      to="/"
                       className="relative overflow-hidden h-[22px] hover:text-slate-500"
                       onMouseOver={() => addHiddenUnderlineText(0)}
                       onMouseLeave={() => removeHiddenUnderlineText(0)}
@@ -200,7 +200,7 @@ function ProductPage() {
                     </Link>
                     /
                     <Link
-                      to="/home/shop"
+                      to="/shop"
                       className="relative overflow-hidden h-[22px] hover:text-slate-500"
                       onMouseOver={() => addHiddenUnderlineText(1)}
                       onMouseLeave={() => removeHiddenUnderlineText(1)}

@@ -47,7 +47,7 @@ function Signup() {
           // check status code, and make changes to client to inform (use modal?)
           if (status_code == 200) {
             // send user to login page after sigining up
-            navigate("/Home/Login");
+            navigate("/Login");
           } else if (status_code === 409) {
             // the email they used to sign up is already in use
             console.log("email in use");

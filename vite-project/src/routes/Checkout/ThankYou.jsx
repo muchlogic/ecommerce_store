@@ -11,17 +11,14 @@ function ThankYou({}) {
           <h1 className="">Many thanks for shopping with "test ecommerce".</h1>
           <h1>
             To veiw your order goto your{" "}
-            <Link
-              to="/home/profile"
-              className="border-b-[1px] border-slate-500"
-            >
+            <Link to="/profile" className="border-b-[1px] border-slate-500">
               profile
             </Link>
             .
           </h1>
           <h1>
             To continue shopping click{" "}
-            <Link to="/home/shop" className="border-b-[1px] border-slate-500">
+            <Link to="/shop" className="border-b-[1px] border-slate-500">
               here
             </Link>
             .

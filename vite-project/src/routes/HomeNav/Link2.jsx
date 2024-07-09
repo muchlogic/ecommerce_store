@@ -132,7 +132,7 @@ function Link2() {
               <h1>of balls</h1>
             </div>
             <div className=" bg-white text-black w-fit h-fit transition-colors delay-50 ease-in-out hover:bg-slate-700 focus:outline-none focus:shadow-outline">
-              <Link to="/home/shop">
+              <Link to="/shop">
                 <h1 className="py-2 px-4">Shop</h1>
               </Link>
             </div>

@@ -85,7 +85,7 @@ function CategoryWheel({ category, n }) {
               " text-xl absolute right-0 -top-10"
             }
           >
-            <Link to={`/home/shop/${category}`}>
+            <Link to={`/shop/${category}`}>
               <h1 className="text-black text-xl hover:text-[#aca4a4] ">
                 View All
               </h1>

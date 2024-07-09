@@ -39,7 +39,7 @@ function Login() {
             // send user to login page after sigining up
             if (data) {
               console.log("successfully logged in ");
-              navigate("/Home", {
+              navigate("/", {
                 state: { user: data.accessToken, refresh: data.refreshToken },
               });
             }

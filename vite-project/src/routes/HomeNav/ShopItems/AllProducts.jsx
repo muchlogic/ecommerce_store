@@ -40,10 +40,10 @@ function AllProducts() {
                       "w-[300px] h-[380px] flex flex-col justify-around items-center my-5 border-b-[0.5px] border-gray-500"
                     }
                   >
-                    <Link to={`/Home/product-page/${product.productID}`}>
+                    <Link to={`/product-page/${product.productID}`}>
                       <div className="w-[300px] h-[300px] bg-slate-600 hover:bg-blue-500 transition-colors ease-in-out"></div>
                     </Link>
-                    <Link to={`/Home/product-page/${product.productID}`}>
+                    <Link to={`/product-page/${product.productID}`}>
                       <div className="flex flex-col justify-center items-center hover:text-[#685d5d]">
                         <h1>{product.name}</h1>
                         <h1>From ${product.price}</h1>

@@ -154,21 +154,21 @@ function Home() {
           >
             <ul className="relative flex flex-col md:flex-row justify-center items-center md:gap-[4vw] px-5">
               <li className="py-2">
-                <Link onClick={show_nav_links} to="/home">
+                <Link onClick={show_nav_links} to="/">
                   <h1 className="text-black text-2xl hover:text-[#aca4a4] ">
                     Home
                   </h1>
                 </Link>
               </li>
               <li className="py-2">
-                <Link onClick={show_nav_links} to={`/home/about`}>
+                <Link onClick={show_nav_links} to={`/about`}>
                   <h1 className="text-black text-2xl hover:text-[#aca4a4] ">
                     About
                   </h1>
                 </Link>
               </li>
               <li className="py-2">
-                <Link onClick={show_nav_links} to={`/home/shop`}>
+                <Link onClick={show_nav_links} to={`/shop`}>
                   <h1 className="text-black text-2xl hover:text-[#aca4a4]">
                     Shop
                   </h1>
@@ -177,13 +177,13 @@ function Home() {
             </ul>
           </div>
           <div className="flex z-20 justify-center w-[200px]">
-            <Link to={user && valid ? "/Home/Profile" : "/Login"}>
+            <Link to={user && valid ? "/profile" : "/login"}>
               <IconButton>
                 <AccountBoxIcon fontSize="large" />
               </IconButton>
             </Link>
 
-            <Link to={`/Home/Cart`}>
+            <Link to={`/Cart`}>
               <IconButton>
                 <ShoppingCartIcon fontSize="large" className="cart-icon" />
                 {cart.length > 0 && (
