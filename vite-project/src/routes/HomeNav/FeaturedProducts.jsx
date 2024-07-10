@@ -6,7 +6,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FeaturedItem from "./FeaturedItem";
 
 // Featued Product Slider for Home page
-function FeaturedProducts({}) {
+function FeaturedProducts({ category, title }) {
   const [bestSelling, setBestSelling] = useState([]);
   const [currentTranslateX, setCurrentTranslateX] = useState(0); // track mouse starting pos for sliding
   const [currentItem, setCurrentItem] = useState(0); // track item currently snapped to by transforms
@@ -22,7 +22,7 @@ function FeaturedProducts({}) {
   useEffect(() => {
     // get all products in db
     if (slider) slider.style.transform = `translateX(0px)`;
-    fetch(`https://localhost:3000/products/filter/tool`, {
+    fetch(`https://localhost:3000/products/filter/${category}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -205,7 +205,7 @@ function FeaturedProducts({}) {
           onMouseDown={(e) => startDragging(e)}
         >
           <h1 className="text-2xl relative left-[50%] translate-x-[-50%] w-fit h-fit p-4 select-none">
-            Featured
+            {title}
           </h1>
           <div className="h-[400px] w-[96vw] text-black overflow-hidden relative left-[50%] translate-x-[-50%]">
             <div>

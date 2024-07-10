@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import { useParams, useOutletContext, Link } from "react-router-dom";
 import Modal from "../../Modal";
+import FeaturedProducts from "../FeaturedProducts";
 import Rating from "@mui/material/Rating";
 import ReviewSection from "./ReviewSection";
+import RevealButton from "../../RevealButton";
+import TestingTab from "./TestingTab";
 
 function ProductPage() {
   const [product, setProduct] = useState(null);
   const [currSlide, setCurrSlide] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [rating, setRating] = useState();
+  const [message, setMessage] = useState(null);
   const params = useParams();
 
   const images = ["img1", "img2", "img3", "img4"]; // temp imgs until backend ones
@@ -72,6 +76,7 @@ function ProductPage() {
     }
 
     cartWiggle();
+    setMessage("Item added to cart");
 
     const modal = document.getElementsByClassName("Modal")[0];
     modal.classList.replace("invisible", "visible");
@@ -288,11 +293,20 @@ function ProductPage() {
           <p>Replace with screen loader, ie. faded boxes</p>
         )}
       </div>
-      <div className="h-[100vh] mx-10 mb-6">
-        <ReviewSection product={product} fetchProduct={fetchProduct} />
+      <div className="mx-10 mb-10 flex flex-col gap-y-4">
+        <ReviewSection
+          product={product}
+          fetchProduct={fetchProduct}
+          setMessage={setMessage}
+        />
+        <TestingTab />
+        <FeaturedProducts
+          category={"tool"}
+          title={"Products you may also like"}
+        />
       </div>
 
-      <Modal message="Item added to cart" />
+      <Modal message={message} />
     </>
   );
 }

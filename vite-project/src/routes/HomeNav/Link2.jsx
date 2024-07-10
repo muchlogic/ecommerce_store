@@ -101,7 +101,7 @@ function Link2() {
         </div>
       </div>
       <div className="featured-products invisible">
-        <FeaturedProducts />
+        <FeaturedProducts category={"tool"} title={"Featured"} />
       </div>
 
       <div className="About-container mt-10">
