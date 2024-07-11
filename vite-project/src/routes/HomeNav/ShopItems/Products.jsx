@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
-import CategoryWheel from "./ShopItems/CategoryWheel";
+import CategoryWheel from "./CategoryWheel";
 
 function Products() {
   const [categories, setCategories] = useState(null);

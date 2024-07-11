@@ -7,7 +7,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import { Button, IconButton } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
-import Slider from "./HomeNav/Slider";
+import Slider from "../components/Slider";
 
 function Home() {
   const [user, setUser] = useState(null); // user is jwt token

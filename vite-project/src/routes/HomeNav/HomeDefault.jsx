@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 import FeaturedProducts from "./FeaturedProducts";
 
-function Link2() {
+function HomeDefault() {
   const [currSlide, setCurrSlide] = useState(0);
   const [currWord, setCurrWord] = useState(0);
   const [scroll, setScroll] = useState(window.scroll);
@@ -143,4 +143,4 @@ function Link2() {
   );
 }
 
-export default Link2;
+export default HomeDefault;

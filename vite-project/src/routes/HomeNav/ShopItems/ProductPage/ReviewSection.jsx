@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useOutletContext, Link } from "react-router-dom";
-import Modal from "../../Modal";
+import Modal from "../../../../components/Modal";
 import Rating from "@mui/material/Rating";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import RevealButton from "../../RevealButton";
+import RevealButton from "../../../../components/RevealButton";
 
 function ReviewSection({ product, fetchProduct, setMessage }) {
   const [cart, setCart, user, setUser, refreshToken, setRefreshToken] =

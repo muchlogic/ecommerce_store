@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams, useOutletContext, Link } from "react-router-dom";
-import Modal from "../../Modal";
-import FeaturedProducts from "../FeaturedProducts";
+import FeaturedProducts from "../../FeaturedProducts";
 import Rating from "@mui/material/Rating";
 import ReviewSection from "./ReviewSection";
-import RevealButton from "../../RevealButton";
+import Modal from "../../../../components/Modal";
+import RevealButton from "../../../../components/RevealButton";
 import TestingTab from "./TestingTab";
 
 function ProductPage() {

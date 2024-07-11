@@ -5,12 +5,12 @@ import Root from "./routes/root";
 import Signup from "./routes/User/Signup";
 import Login from "./routes/User/Login";
 import Home from "./routes/Home";
-import Link2 from "./routes/HomeNav/Link2";
+import HomeDefault from "./routes/HomeNav/HomeDefault";
 import About from "./routes/HomeNav/About";
-import Products from "./routes/HomeNav/Products";
+import Products from "./routes/HomeNav/ShopItems/Products";
 import CreateProduct from "./routes/Admin/CreateProduct";
 import Cart from "./routes/Checkout/Cart";
-import ProductPage from "./routes/HomeNav/ShopItems/ProductPage";
+import ProductPage from "./routes/HomeNav/ShopItems/ProductPage/ProductPage";
 import AllProducts from "./routes/HomeNav/ShopItems/AllProducts";
 import Profile from "./routes/User/Profile";
 import ChangePassword from "./routes/User/ChangePassword";
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Link2 />, // temp
+        element: <HomeDefault />, // temp
       },
       {
         path: "/about",

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import RevealButton from "../../RevealButton";
+import RevealButton from "../../../../components/RevealButton";
 
 function TestingTab() {
   return (

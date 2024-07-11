@@ -4,8 +4,8 @@ import { IconButton } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 import CloseIcon from "@mui/icons-material/Close";
-import Modal from "../Modal";
 import Close from "@mui/icons-material/Close";
+import Modal from "../../components/Modal";
 
 function Cart({}) {
   // const [cart, setCart] = useState([]);
