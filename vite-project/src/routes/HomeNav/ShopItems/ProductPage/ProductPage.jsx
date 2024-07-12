@@ -6,6 +6,7 @@ import ReviewSection from "./ReviewSection";
 import Modal from "../../../../components/Modal";
 import RevealButton from "../../../../components/RevealButton";
 import TestingTab from "./TestingTab";
+import NavButton from "../../../Checkout/NavButton";
 
 function ProductPage() {
   const [product, setProduct] = useState(null);
@@ -194,26 +195,8 @@ function ProductPage() {
               <div className="w-[76vw] md:w-[46vw] m-2">
                 <div className="flex flex-col gap-y-1 border-b-[0.5px] border-slate-500">
                   <h1 className="flex gap-x-2">
-                    <Link
-                      to="/"
-                      className="relative overflow-hidden h-[22px] hover:text-slate-500"
-                      onMouseOver={() => addHiddenUnderlineText(0)}
-                      onMouseLeave={() => removeHiddenUnderlineText(0)}
-                    >
-                      home
-                      <div className="hidden-underline transition-transform delay-100 ease-in translate-x-[-110%] bg-black w-full h-[0.5px] absolute top-5"></div>
-                    </Link>
-                    /
-                    <Link
-                      to="/shop"
-                      className="relative overflow-hidden h-[22px] hover:text-slate-500"
-                      onMouseOver={() => addHiddenUnderlineText(1)}
-                      onMouseLeave={() => removeHiddenUnderlineText(1)}
-                    >
-                      shop
-                      <div className="hidden-underline transition-transform delay-100 ease-in translate-x-[-110%] bg-black w-full h-[0.5px] absolute top-5"></div>
-                    </Link>
-                    /
+                    <NavButton name={"home"} link={"/"} />/
+                    <NavButton name={"shop"} link={"/shop"} />/
                   </h1>
                   <h1 className="text-3xl font-semibold">{product.name}</h1>
                   <div>

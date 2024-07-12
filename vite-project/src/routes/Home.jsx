@@ -144,7 +144,7 @@ function Home() {
     <>
       <header className="bg-white border-b-[0.5px] border-slate-500">
         <nav className="flex justify-between items-center w-[92%] h-20 mx-auto">
-          <Link to="/home">
+          <Link to="/">
             <h1 className="text-3xl font-bold underline text-[black] z-20 w-[200px] flex items-center justify-center">
               LOGO
             </h1>
