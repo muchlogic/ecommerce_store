@@ -4,6 +4,8 @@ import Modal from "../../../../components/Modal";
 import Rating from "@mui/material/Rating";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import RevealButton from "../../../../components/RevealButton";
+import CreateIcon from "@mui/icons-material/Create";
+import { IconButton } from "@mui/material";
 
 function ReviewSection({ product, fetchProduct, setMessage }) {
   const [cart, setCart, user, setUser, refreshToken, setRefreshToken] =
@@ -82,10 +84,19 @@ function ReviewSection({ product, fetchProduct, setMessage }) {
   }, [user, product]);
 
   const reviewMode = (n) => {
-    if (n == 0) {
-      setReviewState(0);
+    if (canReview) {
+      setReviewState(n);
     } else {
-      setReviewState(1);
+      setMessage("Sign in to leave a review");
+
+      const modal = document.getElementsByClassName("Modal")[0];
+      modal.classList.replace("invisible", "visible");
+      modal.classList.replace("opacity-0", "opacity-100");
+      // Automatically close the modal after 3 seconds
+      setTimeout(() => {
+        modal.classList.replace("opacity-100", "opacity-0");
+        modal.classList.replace("visible", "invisible");
+      }, 3000);
     }
   };
 
@@ -159,17 +170,21 @@ function ReviewSection({ product, fetchProduct, setMessage }) {
         header={"Reviews"}
         content={
           <div className="mt-4">
-            <div className="flex flex-col items-center w-full mx-auto min-h-[50vh] h-auto border-[0.5px] border-slate-500 mb-10">
-              <div className="w-full border-b-[0.5px] border-slate-500 ">
-                <button
-                  className="w-[50%] border-r-[0.5px] border-slate-500"
-                  onClick={() => reviewMode(0)}
+            <div className="flex flex-col items-center w-full mx-auto min-h-[80vh] h-auto border-[0.5px] border-slate-500 mb-10">
+              <div className="flex justify-end w-full border-b-[0.5px] border-slate-500">
+                <IconButton
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "white",
+                    },
+                  }}
+                  disableRipple={true}
                 >
-                  <h1 className="text-xl py-4">Reviews</h1>
-                </button>
-                <button className="w-[50%]" onClick={() => reviewMode(1)}>
-                  <h1 className="text-xl py-4">Leave a review</h1>
-                </button>
+                  <CreateIcon
+                    fontSize={"large"}
+                    onClick={() => reviewMode(1 ^ reviewState)}
+                  />
+                </IconButton>
               </div>
               {reviewState == 0 ? (
                 <>
@@ -213,64 +228,60 @@ function ReviewSection({ product, fetchProduct, setMessage }) {
                 </>
               ) : (
                 <>
-                  {canReview ? (
-                    <form className="flex flex-col h-fit w-full min-w-[350px] py-4 px-8">
-                      <div>
-                        <label className="label block mb-2">
-                          <h1 className="">Name</h1>
-                        </label>
-                        <input
-                          className="shadow appearance-none border border-slate-500 rounded w-[20%] min-w-[300px] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                          onChange={handleName}
-                          value={name}
-                          type="text"
-                        />
-                      </div>
-                      <div>
-                        <Rating
-                          name="half-rating"
-                          value={rating}
-                          precision={0.5}
-                          onChange={(event, newValue) => {
-                            handleRating(newValue);
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <label className="label block mb-2">
-                          <h1 className="">Title</h1>
-                        </label>
-                        <input
-                          className="shadow appearance-none border border-slate-500 rounded w-[20%] min-w-[300px] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                          onChange={handleTitle}
-                          value={title}
-                          type="text"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="review" className="label block mb-2">
-                          <h1>Review</h1>
-                        </label>
-                        <textarea
-                          id="review"
-                          className="shadow appearance-none border border-slate-500 rounded w-full min-h-[30vh] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                          onChange={handleDesc}
-                          value={desc}
-                        ></textarea>
-                      </div>
-                      <div>
-                        <button
-                          className="btn bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                          onClick={(e) => handleSubmit(e)}
-                          type="submit"
-                        >
-                          {userReview ? "Edit review" : "Submit"}
-                        </button>
-                      </div>
-                    </form>
-                  ) : (
-                    <h1>Sign in to leave a review</h1>
-                  )}
+                  <form className="flex flex-col h-fit w-full min-w-[350px] py-4 px-8">
+                    <div>
+                      <label className="label block mb-2">
+                        <h1 className="">Name</h1>
+                      </label>
+                      <input
+                        className="shadow appearance-none border border-slate-500 rounded w-[20%] min-w-[300px] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                        onChange={handleName}
+                        value={name}
+                        type="text"
+                      />
+                    </div>
+                    <div>
+                      <Rating
+                        name="half-rating"
+                        value={rating}
+                        precision={0.5}
+                        onChange={(event, newValue) => {
+                          handleRating(newValue);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label className="label block mb-2">
+                        <h1 className="">Title</h1>
+                      </label>
+                      <input
+                        className="shadow appearance-none border border-slate-500 rounded w-[20%] min-w-[300px] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                        onChange={handleTitle}
+                        value={title}
+                        type="text"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="review" className="label block mb-2">
+                        <h1>Review</h1>
+                      </label>
+                      <textarea
+                        id="review"
+                        className="shadow appearance-none border border-slate-500 rounded w-full min-h-[30vh] py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                        onChange={handleDesc}
+                        value={desc}
+                      ></textarea>
+                    </div>
+                    <div>
+                      <button
+                        className="btn bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        onClick={(e) => handleSubmit(e)}
+                        type="submit"
+                      >
+                        {userReview ? "Edit review" : "Submit"}
+                      </button>
+                    </div>
+                  </form>
                 </>
               )}
             </div>

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 const Modal = ({ message }) => {
   return (
     <div className="Modal fixed top-[10vh] left-[50%] translate-x-[-50%] flex items-center justify-center transition-all ease-in-out delay-100 opacity-0 invisible">
