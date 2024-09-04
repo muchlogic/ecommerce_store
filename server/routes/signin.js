@@ -22,7 +22,7 @@ router.get("/:email/:password", async (req, res) => {
           expiresIn: "30m",
         });
         const refreshToken = jwt.sign(user, process.env.REFRESH_SECRET);
-        refreshTokens.push(refreshToken);
+        refreshTokens.push(refreshToken); // place in redis cache
         res
           .status(200)
           .json({ accessToken: accessToken, refreshToken: refreshToken });

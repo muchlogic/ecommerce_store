@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams, useOutletContext, Link } from "react-router-dom";
+import {
+  useParams,
+  useOutletContext,
+  Link,
+  useLocation,
+} from "react-router-dom";
 import FeaturedProducts from "../../FeaturedProducts";
 import Rating from "@mui/material/Rating";
 import ReviewSection from "./ReviewSection";
@@ -16,11 +21,33 @@ function ProductPage() {
   const [message, setMessage] = useState(null);
   const params = useParams();
 
+  const location = useLocation();
+
   const images = ["img1", "img2", "img3", "img4"]; // temp imgs until backend ones
-  const [cart, setCart, user, setUser, refreshToken, setRefreshToken] =
-    useOutletContext();
+  const [
+    cart,
+    setCart,
+    user,
+    setUser,
+    refreshToken,
+    setRefreshToken,
+    setUpdate,
+    timer,
+    setTimer,
+    previousPath,
+    setPreviousPath,
+  ] = useOutletContext();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer(timer + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timer]);
 
   const fetchProduct = () => {
+    // store path of product, so that when path changes we can emit analytics of product page to server
+    setPreviousPath(location.pathname);
     fetch(`https://localhost:3000/products/product/${params.id}`, {
       method: "GET",
       headers: {

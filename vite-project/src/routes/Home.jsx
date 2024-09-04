@@ -8,6 +8,7 @@ import DehazeIcon from "@mui/icons-material/Dehaze";
 import { Button, IconButton } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import Slider from "../components/Slider";
+import { socket } from "../socket";
 
 function Home() {
   const [user, setUser] = useState(null); // user is jwt token
@@ -17,9 +18,23 @@ function Home() {
   const [valid, setValid] = useState(false);
   const [cart, setCart] = useState([]);
   const showLinksString = showLinks ? "top-[11%]" : "top-[-100%]";
+
   const location = useLocation();
+  const [previousPath, setPreviousPath] = useState("");
 
   const [email, setEmail] = useState("");
+  const [timer, setTimer] = useState(0);
+
+  // use socket to track user activity
+  useEffect(() => {
+    if (previousPath.includes("product-page")) {
+      setTimer(0);
+      socket.emit("analytics", timer, previousPath);
+
+      // clear previous path
+      setPreviousPath("");
+    }
+  }, [location]);
 
   useEffect(() => {
     let tempUser = null;
@@ -37,7 +52,7 @@ function Home() {
       sessionStorage.getItem("user") != "undefined" &&
       sessionStorage.getItem("refresh") != "undefined"
     ) {
-      // if user did not login but thier data remains in local storage then set user using that,
+      // if user did not login but thier data remains in session storage then set user using that,
       // and attempt to refresh the user using the refresh token, if fails then restrict
       // sensitive info until they login again
 
@@ -214,6 +229,10 @@ function Home() {
               refreshToken,
               setRefreshToken,
               setUpdate,
+              timer,
+              setTimer,
+              previousPath,
+              setPreviousPath,
             ]}
           />
         </main>

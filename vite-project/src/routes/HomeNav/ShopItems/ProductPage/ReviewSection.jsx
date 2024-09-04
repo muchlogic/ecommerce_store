@@ -173,6 +173,7 @@ function ReviewSection({ product, fetchProduct, setMessage }) {
             <div className="flex flex-col items-center w-full mx-auto min-h-[80vh] h-auto border-[0.5px] border-slate-500 mb-10">
               <div className="flex justify-end w-full border-b-[0.5px] border-slate-500">
                 <IconButton
+                  onClick={() => reviewMode(1 ^ reviewState)}
                   sx={{
                     "&:hover": {
                       backgroundColor: "white",
@@ -180,10 +181,7 @@ function ReviewSection({ product, fetchProduct, setMessage }) {
                   }}
                   disableRipple={true}
                 >
-                  <CreateIcon
-                    fontSize={"large"}
-                    onClick={() => reviewMode(1 ^ reviewState)}
-                  />
+                  <CreateIcon fontSize={"large"} />
                 </IconButton>
               </div>
               {reviewState == 0 ? (

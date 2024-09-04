@@ -8,6 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const { Server } = require("socket.io");
 
 app.use(bodyParser.json()); // to parse http bodies
 app.use(express.json());
@@ -51,4 +52,36 @@ const sslServer = https.createServer(
   app
 );
 
-sslServer.listen(3000);
+// socket.io
+const io = new Server(sslServer, {
+  connectionStateRecovery: {},
+  cors: {
+    origin: "http://localhost:5173",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  socket.on("message", (msg) => {
+    console.log("message: " + msg);
+  });
+
+  // socket.on("visit", (product) => {
+  //   console.log("User is visiting " + product + " page");
+  // });
+
+  socket.on("analytics", (timer, pathName) => {
+    console.log("user spent " + timer + " on " + pathName);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("the user left");
+  });
+});
+
+io.listen(4000);
+
+sslServer.listen(3000, () => {
+  console.log("server is listening on port 3000");
+});

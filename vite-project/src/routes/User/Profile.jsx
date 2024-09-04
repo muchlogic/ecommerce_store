@@ -8,18 +8,19 @@ import {
 import { jwtDecode } from "jwt-decode";
 
 function Profile() {
-  const [cart, setCart, user, setUser, refreshToken] = useOutletContext();
+  const [cart, setCart, user, setUser, refreshToken, setRefreshToken] =
+    useOutletContext();
   const [orderHistory, setOrderHistory] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
+    // navigate user to login if not signed in and tries to access profile page
     if (
       user === null &&
       (JSON.parse(sessionStorage.getItem("refresh")) === "undefined" ||
         JSON.parse(sessionStorage.getItem("refresh")) === null)
     ) {
-      console.log(!user, JSON.parse(sessionStorage.getItem(user)));
       navigate("/login");
     }
   }, [user]);
@@ -50,6 +51,10 @@ function Profile() {
     sessionStorage.setItem("user", null);
     sessionStorage.setItem("refresh", null);
     sessionStorage.setItem("cart", JSON.stringify([]));
+
+    setUser(null);
+    setRefreshToken(null);
+
     fetch(`https://localhost:3000/signin/logout`, {
       method: "DELETE",
       headers: {
